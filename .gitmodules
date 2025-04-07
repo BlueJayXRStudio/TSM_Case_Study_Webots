@@ -1,3 +1,6 @@
 [submodule "modules/PyInfiniteTree"]
 	path = modules/PyInfiniteTree
 	url = https://github.com/BlueJayXRStudio/PyInfiniteTree.git
+[submodule "PyInfiniteTree"]
+	path = PyInfiniteTree
+	url = https://github.com/BlueJayXRStudio/PyInfiniteTree.git
