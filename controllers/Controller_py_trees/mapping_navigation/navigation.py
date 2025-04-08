@@ -47,12 +47,23 @@ class Navigation(py_trees.behaviour.Behaviour):
         
         rho = np.sqrt((xw - self.WP[self.index][0])**2 + (yw - self.WP[self.index][1])**2)
         
+        # reactive correction calculation
+        p1 = 0.005 # ADJUST THIS FOR STEERING INFLUENCE
+        p2 = 0.01
+        rx, ry = 0.0, 0.0
+        # for i, angle in enumerate(self.angles):
+        #     if blackboard.read('ranges')[i] < 0.45:
+        #         rx += 1/blackboard.read('ranges')[i] * np.cos(angle)
+        #         ry += 1/blackboard.read('ranges')[i] * np.sin(angle)  
+
+        # print(f"rx: {rx:.3f}, ry: {ry:.3f}")
+        
         steering_adjustment = self.compute_pid_control((xw, yw, 0), (blackboard.compass.getValues()[1],blackboard.compass.getValues()[0], 0), self.WP[self.index], blackboard.delta_t)
 
         # base_speed = 0.8 * blackboard.MAXSPEED
-        base_speed = max(0.1 * blackboard.MAXSPEED, 0.8 * blackboard.MAXSPEED)
-        self.vL = max(min(base_speed - steering_adjustment*10.0, blackboard.MAXSPEED), -blackboard.MAXSPEED)
-        self.vR = max(min(base_speed + steering_adjustment*10.0, blackboard.MAXSPEED), -blackboard.MAXSPEED)
+        base_speed = max(0.1 * blackboard.MAXSPEED, 0.8 * blackboard.MAXSPEED - p2*ry)
+        self.vL = max(min(base_speed - steering_adjustment*5.0 - rx * p1, blackboard.MAXSPEED), -blackboard.MAXSPEED)
+        self.vR = max(min(base_speed + steering_adjustment*5.0 + rx * p1, blackboard.MAXSPEED), -blackboard.MAXSPEED)
 
         blackboard.leftMotor.setVelocity(self.vL)
         blackboard.rightMotor.setVelocity(self.vR)

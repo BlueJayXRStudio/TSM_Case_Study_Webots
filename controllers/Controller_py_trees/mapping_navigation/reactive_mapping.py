@@ -17,13 +17,6 @@ class ReactiveMapping(py_trees.behaviour.Behaviour):
     def setup(self):
         blackboard.write('prob_map', {})
 
-        self.timestep = int(blackboard.robot.getBasicTimeStep())
-
-        self.gps = blackboard.robot.getDevice('gps')
-        self.compass = blackboard.robot.getDevice('compass')
-        self.lidar = blackboard.robot.getDevice('Hokuyo URG-04LX-UG01')
-        self.display = blackboard.robot.getDevice('display')
-
         self.sampling_rate = 2 #16 # Period not frequency
         self.curr_sample = 0
 
@@ -34,9 +27,6 @@ class ReactiveMapping(py_trees.behaviour.Behaviour):
         print(self.name)
         
         # print("probability map ", blackboard.read('prob_map'))
-
-        self.angles = np.linspace(4.19 / 2, -4.19 / 2, 667)
-        self.angles = self.angles[80:len(self.angles)-80]
 
     def update(self):
         if self.curr_sample < self.sampling_rate:
@@ -63,7 +53,7 @@ class ReactiveMapping(py_trees.behaviour.Behaviour):
                         [0, 0, 1]])
         lidarPos = w_T_r @ np.array([[0.202], [0], [1]])
 
-        ranges = np.array(self.lidar.getRangeImage())
+        ranges = np.array(blackboard.lidar.getRangeImage())
         ranges[ranges==np.inf] = 0.265
         ranges = ranges[80:len(ranges)-80]
         
@@ -73,7 +63,7 @@ class ReactiveMapping(py_trees.behaviour.Behaviour):
         w_T_r = np.array([[np.cos(theta), -np.sin(theta), lidarPos[0][0]],
                         [np.sin(theta), np.cos(theta), lidarPos[1][0]],
                         [0, 0, 1]])
-        X_i = np.array([ranges*np.cos(self.angles), ranges*np.sin(self.angles), np.ones((507,))])
+        X_i = np.array([ranges*np.cos(blackboard.angles), ranges*np.sin(blackboard.angles), np.ones((507,))])
         D = w_T_r @ X_i
 
         map = blackboard.read('prob_map')

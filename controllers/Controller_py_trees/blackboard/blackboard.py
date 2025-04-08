@@ -44,6 +44,7 @@ class Blackboard:
         self.compass = None
         self.lidar = None
         self.camera = None
+        self.display = None
         self.leftMotor = None
         self.rightMotor = None
         self.leftWheelSensor = None
@@ -98,12 +99,14 @@ class Blackboard:
         self.camera.enable(self.timestep)
         self.camera.recognitionEnable(self.timestep)
 
+        self.display = self.robot.getDevice('display')
+
         # COMMISSION markers for visualization purpose
         self.visual_marker = self.robot.getFromDef("marker").getField("translation")
         self.visual_marker_1 = self.robot.getFromDef("marker_1").getField("translation")
 
         # Manually define way points for mapping
-        WP = [(1.08817, 0.567395), (3.18446, 0.866467), (3.25551, 2.30334), (3.25551, 2.30334), (3.02884, 4.19974), (3.02884, 5.76974), (2.06884, 6.76974), (0.978838, 6.43974), (0.978838, 6.43974), (2.06884, 6.76974), (3.02884, 5.76974), (3.02884, 4.19974), (3.25551, 2.30334), (3.25551, 2.30334), (4.58, 3.03), (4.58, 3.03), (5.02, 4.28), (5.02, 4.28), (5.01, 5.54), (5.01, 5.54), (5.02, 4.28), (5.02, 4.28), (7.85, 4.45), (7.85, 4.45), (5.02, 4.28)]
+        WP = [(3.30817, 1.0574), (3.18446, 1.74647), (3.18551, 2.41334), (3.18551, 2.41334), (3.02884, 4.19974), (2.96884, 5.76974), (2.06884, 6.76974), (0.978838, 6.43974), (0.978838, 6.43974), (2.06884, 6.76974), (2.96884, 5.76974), (3.02884, 4.19974), (3.18551, 2.41334), (3.18551, 2.41334), (4.58, 3.03), (4.58, 3.03), (5.02, 4.28), (5.02, 4.28), (5.01, 5.54), (5.01, 5.54), (5.02, 4.28), (5.02, 4.28), (7.85, 4.45), (7.85, 4.45), (5.02, 4.28)]
         self.write('mapping_waypoints', np.concatenate((WP, np.flip(WP, 0)), axis=0))
 
         # Invoke arm set up function

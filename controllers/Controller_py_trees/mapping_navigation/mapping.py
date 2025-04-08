@@ -12,33 +12,24 @@ class Mapping(py_trees.behaviour.Behaviour):
         self.hasrun = False
 
     def setup(self):
-        self.timestep = int(blackboard.robot.getBasicTimeStep())
-
-        self.gps = blackboard.robot.getDevice('gps')
-        self.compass = blackboard.robot.getDevice('compass')
-        self.lidar = blackboard.robot.getDevice('Hokuyo URG-04LX-UG01')
-        self.display = blackboard.robot.getDevice('display')
-
         self.logger.debug("  %s [Mapping::setup()]" % self.name)
 
     def initialise(self):
         self.logger.debug("  %s [Map::initialise()]" % self.name)
         print(self.name)
         self.map = np.zeros((200, 300))
-        self.angles = np.linspace(4.19 / 2, -4.19 / 2, 667)
-        self.angles = self.angles[80:len(self.angles)-80]
 
     def update(self):
         self.hasrun = True
         # get GPS and compass readings
-        xw = self.gps.getValues()[0]
-        yw = self.gps.getValues()[1]
-        theta=np.arctan2(self.compass.getValues()[0],self.compass.getValues()[1])
+        xw = blackboard.gps.getValues()[0]
+        yw = blackboard.gps.getValues()[1]
+        theta=np.arctan2(blackboard.compass.getValues()[0],blackboard.compass.getValues()[1])
         
         # DRAW line following trajectory
         px, py = world2map(xw, yw)
-        self.display.setColor(0xFF0000)
-        self.display.drawPixel(px,py)
+        blackboard.display.setColor(0xFF0000)
+        blackboard.display.drawPixel(px,py)
 
         ## lidar local transform: (0.202, 0, -0.004) ##
         # transform matrix for lidar pos
@@ -47,15 +38,17 @@ class Mapping(py_trees.behaviour.Behaviour):
                         [0, 0, 1]])
         lidarPos = w_T_r @ np.array([[0.202], [0], [1]])
 
-        ranges = np.array(self.lidar.getRangeImage())
+        ranges = np.array(blackboard.lidar.getRangeImage())
         ranges[ranges==np.inf] = 100
         ranges = ranges[80:len(ranges)-80]
+        
+        blackboard.write('ranges', ranges)
         
         # recalculate transform matrix for lidar scans
         w_T_r = np.array([[np.cos(theta), -np.sin(theta), lidarPos[0][0]],
                         [np.sin(theta), np.cos(theta), lidarPos[1][0]],
                         [0, 0, 1]])
-        X_i = np.array([ranges*np.cos(self.angles), ranges*np.sin(self.angles), np.ones((507,))])
+        X_i = np.array([ranges*np.cos(blackboard.angles), ranges*np.sin(blackboard.angles), np.ones((507,))])
         D = w_T_r @ X_i
 
         # UPDATE GRID AND DRAW. Exclude first and last 80 values.
@@ -65,8 +58,8 @@ class Mapping(py_trees.behaviour.Behaviour):
 
             v=int(min(self.map[px,py], 1.0)*255)
             color = (v*256**2+v*256+v)
-            self.display.setColor(color)
-            self.display.drawPixel(px,py)
+            blackboard.display.setColor(color)
+            blackboard.display.drawPixel(px,py)
 
         return py_trees.common.Status.RUNNING
     

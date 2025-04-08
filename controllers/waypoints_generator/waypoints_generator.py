@@ -21,4 +21,4 @@ for backtrack, path in manual_paths:
         for i in path[::-1]:
             waypoints.append(robot.getFromDef(f"WP{i}").getField("translation").getSFVec3f())
 
-print([(i[1], i[0]) for i in waypoints])
+print([(i[0], i[1]) for i in waypoints])
