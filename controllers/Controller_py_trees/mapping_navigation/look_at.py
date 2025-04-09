@@ -49,7 +49,7 @@ class LookAt(py_trees.behaviour.Behaviour):
         xw = blackboard.gps.getValues()[0]
         yw = blackboard.gps.getValues()[1]
         
-        steering_adjustment = compute_pid_control((xw, yw, 0), (blackboard.compass.getValues()[1],blackboard.compass.getValues()[0], 0), (self.look_pos[0], self.look_pos[1], 0), blackboard.delta_t)
+        steering_adjustment = compute_pid_control(self, (xw, yw, 0), (blackboard.compass.getValues()[1],blackboard.compass.getValues()[0], 0), (self.look_pos[0], self.look_pos[1], 0), blackboard.delta_t)
 
         self.vL = max(min(-steering_adjustment, self.MAXSPEED), -self.MAXSPEED)
         self.vR = max(min(steering_adjustment, self.MAXSPEED), -self.MAXSPEED)

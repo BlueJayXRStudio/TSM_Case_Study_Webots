@@ -18,8 +18,6 @@ class Navigation(py_trees.behaviour.Behaviour):
 
     def setup(self):
         self.robot_radius = 0.30 # 0.265
-        self.angles = np.linspace(4.19 / 2 + np.pi/2, -4.19 / 2 + np.pi/2, 667)
-        self.angles = self.angles[80:len(self.angles)-80]
         self.marker = blackboard.robot.getFromDef("marker").getField("translation")
         self.logger.debug("  %s [FineNavigation::setup()]" % self.name)
 
@@ -52,7 +50,7 @@ class Navigation(py_trees.behaviour.Behaviour):
         p1 = 0.005 # ADJUST THIS FOR STEERING INFLUENCE
         p2 = 0.01
         rx, ry = 0.0, 0.0
-        # for i, angle in enumerate(self.angles):
+        # for i, angle in enumerate(blackboard.angles):
         #     if blackboard.read('ranges')[i] < 0.45:
         #         rx += 1/blackboard.read('ranges')[i] * np.cos(angle)
         #         ry += 1/blackboard.read('ranges')[i] * np.sin(angle)  
