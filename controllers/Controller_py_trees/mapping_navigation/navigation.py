@@ -1,6 +1,7 @@
 import py_trees
 import numpy as np
 from blackboard.blackboard import blackboard
+from helpers.misc_helpers import *
 
 # navigation action. "Motor execution"
 class Navigation(py_trees.behaviour.Behaviour):
@@ -32,7 +33,7 @@ class Navigation(py_trees.behaviour.Behaviour):
         self.index = 0
         self.WP = blackboard.read(self.wp_set)
 
-        self.reset_PID()
+        reset_PID(self)
 
         self.logger.debug("  %s [FineNavigation::initialise()]" % self.name)
         
@@ -58,7 +59,7 @@ class Navigation(py_trees.behaviour.Behaviour):
 
         # print(f"rx: {rx:.3f}, ry: {ry:.3f}")
         
-        steering_adjustment = self.compute_pid_control((xw, yw, 0), (blackboard.compass.getValues()[1],blackboard.compass.getValues()[0], 0), self.WP[self.index], blackboard.delta_t)
+        steering_adjustment = compute_pid_control(self, (xw, yw, 0), (blackboard.compass.getValues()[1],blackboard.compass.getValues()[0], 0), self.WP[self.index], blackboard.delta_t)
 
         # base_speed = 0.8 * blackboard.MAXSPEED
         base_speed = max(0.1 * blackboard.MAXSPEED, 0.8 * blackboard.MAXSPEED - p2*ry)
@@ -89,39 +90,3 @@ class Navigation(py_trees.behaviour.Behaviour):
         self.leftMotor.setVelocity(0.0)
         self.rightMotor.setVelocity(0.0)
     
-    def reset_PID(self):
-        self.KP = 15.0
-        self.KI = 0.4
-        self.KD = 20.0
-        self.previous_error = 0
-        self.integral = 0
-
-    def compute_cross_product_error(self, current_pos, current_heading, waypoint):
-        # compute vector from robot to waypoint
-        vector_to_waypoint = np.array((waypoint[0] - current_pos[0], waypoint[1] - current_pos[1], 0))
-        
-        # normalize vectors
-        mag_vtw = np.linalg.norm(vector_to_waypoint)
-        mag_ch = np.linalg.norm(current_heading)
-        
-        # avoid division by zero
-        if mag_vtw == 0 or mag_ch == 0:
-            return 0  
-
-        vector_to_waypoint = vector_to_waypoint / mag_vtw
-        current_heading = current_heading / mag_ch
-        
-        # compute cross product
-        cross_product = np.cross(current_heading, vector_to_waypoint)
- 
-        return cross_product[-1]
-
-    def compute_pid_control(self, curr_pos, current_heading, wp, dt):        
-        error = self.compute_cross_product_error(curr_pos, current_heading, wp)
-        
-        self.integral += error * dt
-        derivative = (error - self.previous_error) / dt
-        output = self.KP * error + self.KI * self.integral + self.KD * derivative
-        
-        self.previous_error = error
-        return output

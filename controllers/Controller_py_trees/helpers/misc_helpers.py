@@ -118,7 +118,7 @@ def look_at(target_direction, up_vector=np.array([0, 0, 1], dtype=np.float64)):
 def xy_plane(vec):
     return np.array([vec[0], vec[1], 0.0])
 
-def compute_dot_product_error(self, current_pos, current_heading, look_pos):
+def compute_dot_product_error(current_pos, current_heading, look_pos):
     # compute vector from robot to waypoint
     vector_to_waypoint = np.array((look_pos[0] - current_pos[0], look_pos[1] - current_pos[1], 0))
     
@@ -141,7 +141,7 @@ def compute_dot_product_error(self, current_pos, current_heading, look_pos):
     # print(dot_product)
     return dot_product
 
-def compute_cross_product_error(self, current_pos, current_heading, look_pos):
+def compute_cross_product_error(current_pos, current_heading, look_pos):
     # compute vector from robot to waypoint
     vector_to_waypoint = np.array((look_pos[0] - current_pos[0], look_pos[1] - current_pos[1], 0))
     
@@ -164,12 +164,19 @@ def compute_cross_product_error(self, current_pos, current_heading, look_pos):
     # print(cross_product[-1])
     return cross_product[-1]
 
-def compute_pid_control(self, curr_pos, look_pos, wp, dt):        
-    error = self.compute_cross_product_error(curr_pos, look_pos, wp)
+def compute_pid_control(instance, curr_pos, look_pos, wp, dt):        
+    error = instance.compute_cross_product_error(curr_pos, look_pos, wp)
     
-    self.integral += error * dt
-    derivative = (error - self.previous_error) / dt
-    output = self.KP * error + self.KI * self.integral + self.KD * derivative
+    instance.integral += error * dt
+    derivative = (error - instance.previous_error) / dt
+    output = instance.KP * error + instance.KI * instance.integral + instance.KD * derivative
     
-    self.previous_error = error
+    instance.previous_error = error
     return output
+
+def reset_PID(instance):
+    instance.KP = 15.0
+    instance.KI = 0.4
+    instance.KD = 20.0
+    instance.previous_error = 0
+    instance.integral = 0
