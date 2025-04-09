@@ -3,7 +3,6 @@ import numpy as np
 from blackboard.blackboard import blackboard
 from helpers.misc_helpers import *
 
-
 # precise navigation with reactive corrections
 class RotateCounterclockwise(py_trees.behaviour.Behaviour):
     def __init__(self, name, preconditions, max_speed=0.5):

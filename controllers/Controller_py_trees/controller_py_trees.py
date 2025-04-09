@@ -23,6 +23,7 @@ from IK_behaviours.ResetArm import ResetArm
 
 # import misc behaviors
 from primitive_movements.rotate_clockwise import RotateClockwise
+from primitive_movements.rotate_counterclockwise import RotateCounterclockwise
 
 # webots API
 from controller import Supervisor
@@ -48,7 +49,8 @@ blackboard.setup(robot)
 #     ResetArm("reset arm to safe position", defaultPoses.default_arm_pos, True, 1),
 # ], memory=True)
 
-tree = RotateClockwise("rotate clockwise", [])
+meta_tree =  # to keep consistent time dependent meta-data such as wheel velocity 
+tree = RotateClockwise("rotate clockwise", [], 2)
 
 
 # Invoke setup on all nodes before stepping through

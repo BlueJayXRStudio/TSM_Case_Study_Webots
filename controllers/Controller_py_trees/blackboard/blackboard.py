@@ -63,6 +63,9 @@ class Blackboard:
         self.camera_encoder_names = ["torso_lift_joint", "head_1_joint", "head_2_joint"]
         self.timestep = 0
         self.delta_t = 0
+
+        self.prevPosL = 0
+        self.prevPosR = 0
         
     def setup(self, robot):
         # get timestep
@@ -85,6 +88,8 @@ class Blackboard:
         self.rightWheelSensor = robot.getDevice("wheel_right_joint_sensor")
         self.leftWheelSensor.enable(timestep)
         self.rightWheelSensor.enable(timestep)
+        self.prevPosL = self.leftWheelSensor.getValue()
+        self.prevPosR = self.rightWheelSensor.getValue()
 
         self.leftMotor.setPosition(float('inf'))
         self.rightMotor.setPosition(float('inf'))
@@ -201,4 +206,12 @@ class Blackboard:
         for name in defaultPoses.joint_names:
             self.joints[name].setPosition(self.encoders[name].getValue())
     
+    # left wheel velocity
+    def lwVel(self):
+        pass
+
+    # right wheel velocity
+    def rwVel(self):
+        pass
+
 blackboard = Blackboard()
