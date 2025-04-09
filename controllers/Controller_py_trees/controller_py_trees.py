@@ -20,6 +20,10 @@ from blackboard.DefaultPoses import defaultPoses
 # import all IK related behaviors
 from IK_behaviours.ResetArm import ResetArm
 
+
+# import misc behaviors
+from primitive_movements.rotate_clockwise import RotateClockwise
+
 # webots API
 from controller import Supervisor
 
@@ -27,23 +31,24 @@ from controller import Supervisor
 robot = Supervisor()
 blackboard.setup(robot)
 
-# MAIN BEHAVIOR TREE
-tree = Sequence("Main", children=[
-    # set arm to a safe position
-    ResetArm("reset arm to safe position", defaultPoses.default_arm_pos),
+# # MAIN BEHAVIOR TREE
+# tree = Sequence("Main", children=[
+#     # set arm to a safe position
+#     ResetArm("reset arm to safe position", defaultPoses.default_arm_pos),
     
-    # map cspace. Load previously saved map if it exists
-    Selector("Does map exist?", children=[
-        DoesMapExist("Test for map"),
-        Parallel("Mapping", policy=py_trees.common.ParallelPolicy.SuccessOnOne(), children=[
-            Mapping("map the environment"),
-            Navigation("move around the table")
-        ])
-    ], memory=True),
+#     # map cspace. Load previously saved map if it exists
+#     Selector("Does map exist?", children=[
+#         DoesMapExist("Test for map"),
+#         Parallel("Mapping", policy=py_trees.common.ParallelPolicy.SuccessOnOne(), children=[
+#             Mapping("map the environment"),
+#             Navigation("move around the table")
+#         ])
+#     ], memory=True),
 
-    ResetArm("reset arm to safe position", defaultPoses.default_arm_pos, True, 1),
+#     ResetArm("reset arm to safe position", defaultPoses.default_arm_pos, True, 1),
+# ], memory=True)
 
-], memory=True)
+tree = RotateClockwise("rotate clockwise", [])
 
 
 # Invoke setup on all nodes before stepping through
