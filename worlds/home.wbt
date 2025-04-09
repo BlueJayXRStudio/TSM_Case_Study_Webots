@@ -36,8 +36,8 @@ WorldInfo {
   lineScale 1
 }
 Viewpoint {
-  orientation 0.613621043852839 -0.11402841876331346 -0.7813237064464963 3.4249307816320638
-  position 9.272034835192727 1.9971333679453331 23.20084388855349
+  orientation 0.5869918040782712 -0.09706745936045283 -0.8037527793284718 3.400607767491117
+  position 3.5083534965760927 0.40613009392353067 7.73360428590886
   near 0.5
 }
 TexturedBackground {
@@ -6172,7 +6172,7 @@ Robot {
   supervisor TRUE
 }
 DEF WP0 Solid {
-  translation 3.30817 1.0574 1.28786e-14
+  translation 1.09817 0.3374 1.28786e-14
   children [
     Shape {
       appearance PBRAppearance {
@@ -6199,7 +6199,7 @@ DEF WP0 Solid {
   contactMaterial "ping pong ball material"
 }
 DEF WP1 Solid {
-  translation 3.18446 1.74647 1.28786e-14
+  translation 3.18446 0.92647 1.28786e-14
   children [
     Shape {
       appearance PBRAppearance {
