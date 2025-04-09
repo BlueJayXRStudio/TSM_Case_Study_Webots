@@ -123,12 +123,12 @@ tree = Sequence("Main", children=[
     ], memory=True),
 
     # Soda can to kitchen island sequence for 3 jars
-    LookAt("looking at kitchen island", (0.75, 0.20)),
-    build_can_to_island((0.75, 0.20), (-1.43, -2.85), (-0.35, -2.0), ( -1.06793, -3.19647)),
-    build_can_to_island((0.75, 0.20), (-1.30, -2.85), (-0.50, -2.0), ( -1.06793, -3.19647)),
-    build_can_to_island((0.75, 0.20), (-1.30, -2.85), (-0.50, -2.0), ( -1.06793, -3.19647)),
+    # LookAt("looking at kitchen island", (0.75, 0.20)),
+    # build_can_to_island((0.75, 0.20), (-1.43, -2.85), (-0.35, -2.0), ( -1.06793, -3.19647)),
+    # build_can_to_island((0.75, 0.20), (-1.30, -2.85), (-0.50, -2.0), ( -1.06793, -3.19647)),
+    # build_can_to_island((0.75, 0.20), (-1.30, -2.85), (-0.50, -2.0), ( -1.06793, -3.19647)),
 
-    ResetArm("reset arm to safe position", defaultPoses.default_arm_pos, True, 1),
+    # ResetArm("reset arm to safe position", defaultPoses.default_arm_pos, True, 1),
 
 ], memory=True)
 

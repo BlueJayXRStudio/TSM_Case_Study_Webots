@@ -117,3 +117,59 @@ def look_at(target_direction, up_vector=np.array([0, 0, 1], dtype=np.float64)):
 # zero out z-axis. May turn out useful
 def xy_plane(vec):
     return np.array([vec[0], vec[1], 0.0])
+
+def compute_dot_product_error(self, current_pos, current_heading, look_pos):
+    # compute vector from robot to waypoint
+    vector_to_waypoint = np.array((look_pos[0] - current_pos[0], look_pos[1] - current_pos[1], 0))
+    
+    # normalize vectors
+    mag_vtw = np.linalg.norm(vector_to_waypoint)
+    mag_ch = np.linalg.norm(current_heading)
+    
+    # avoid division by zero
+    if mag_vtw == 0 or mag_ch == 0:
+        return 0  
+
+    vector_to_waypoint = vector_to_waypoint / mag_vtw
+    current_heading = current_heading / mag_ch
+    
+    # print(current_heading, vector_to_waypoint)
+    # compute cross product
+    dot_product = np.dot(current_heading, vector_to_waypoint)
+    # print("cross product: ", cross_product)
+    # positive: turn left; negative: turn right
+    # print(dot_product)
+    return dot_product
+
+def compute_cross_product_error(self, current_pos, current_heading, look_pos):
+    # compute vector from robot to waypoint
+    vector_to_waypoint = np.array((look_pos[0] - current_pos[0], look_pos[1] - current_pos[1], 0))
+    
+    # normalize vectors
+    mag_vtw = np.linalg.norm(vector_to_waypoint)
+    mag_ch = np.linalg.norm(current_heading)
+    
+    # avoid division by zero
+    if mag_vtw == 0 or mag_ch == 0:
+        return 0  
+
+    vector_to_waypoint = vector_to_waypoint / mag_vtw
+    current_heading = current_heading / mag_ch
+    
+    # print(current_heading, vector_to_waypoint)
+    # compute cross product
+    cross_product = np.cross(current_heading, vector_to_waypoint)
+    # print("cross product: ", cross_product)
+    # positive: turn left; negative: turn right
+    # print(cross_product[-1])
+    return cross_product[-1]
+
+def compute_pid_control(self, curr_pos, look_pos, wp, dt):        
+    error = self.compute_cross_product_error(curr_pos, look_pos, wp)
+    
+    self.integral += error * dt
+    derivative = (error - self.previous_error) / dt
+    output = self.KP * error + self.KI * self.integral + self.KD * derivative
+    
+    self.previous_error = error
+    return output
