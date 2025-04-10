@@ -25,6 +25,8 @@ from IK_behaviours.ResetArm import ResetArm
 from primitive_movements.rotate_clockwise import RotateClockwise
 from primitive_movements.rotate_counterclockwise import RotateCounterclockwise
 from primitive_movements.move_backwards import MoveBackwards
+from primitive_movements.dRotate import dRotate
+from primitive_movements.dMove import dMove
 
 from naive_navigation.follow_waypoints import FollowWaypoints
 from naive_navigation.test_behavior import TestBehavior
@@ -41,7 +43,9 @@ dataTree = DataTree("meta tree") # to keep consistent time dependent meta-data s
 # tree = RotateClockwise("rotate clockwise", [], 2) # Main behavior tree
 # tree = RotateCounterclockwise("rotate counter-clockwise", [], 2) # Main behavior tree
 # tree = MoveBackwards("move backwards", [], 2, 0.05) # Main behavior tree
-tree = TestBehavior("test behavior")
+# tree = dRotate("", [], 90, 2)
+tree = dMove("", [], 0.0254 * 2, 4)
+# tree = TestBehavior("test behavior")
 
 # tree = Selector("Main", children=[
 #     RotateClockwise("rotate clockwise", [], 2), # Main behavior tree

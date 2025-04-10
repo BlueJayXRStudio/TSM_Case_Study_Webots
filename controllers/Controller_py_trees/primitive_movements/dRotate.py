@@ -6,6 +6,12 @@ from helpers.misc_helpers import *
 # precise navigation with reactive corrections
 class dRotate(py_trees.behaviour.Behaviour):
     def __init__(self, name, preconditions, rotate_by, max_speed=0.5):
+        '''
+        dRotate constructor
+
+        Args:
+            rotate_by (float): positive rotation (degrees) for clockwise rotation.
+        '''
         super(dRotate, self).__init__(name)
         self.MAXSPEED = max_speed
         self.rotateBy = rotate_by
@@ -20,10 +26,12 @@ class dRotate(py_trees.behaviour.Behaviour):
         print(self.name)
         self.logger.debug("  %s [LookAt::initialise()]" % self.name)
         
+        self.initialHeading = blackboard.get_heading()
         blackboard.leftMotor.setVelocity(0.0)
         blackboard.rightMotor.setVelocity(0.0)
         self.runtime = 0
-        self.vL, self.vR = self.MAXSPEED, -self.MAXSPEED
+        self.direction = self.rotateBy / abs(self.rotateBy)
+        self.vL, self.vR = self.MAXSPEED * self.direction, -self.MAXSPEED * self.direction
 
     def update(self):
         for condition in self.preconditions:
@@ -35,6 +43,11 @@ class dRotate(py_trees.behaviour.Behaviour):
         # before checking for inactivity
         if self.runtime > 1.0 and abs(blackboard.getTrueAngularVelocity()[1]) < 3.0:
             return py_trees.common.Status.FAILURE
+        
+        if abs(blackboard.get_angle_from_to(blackboard.get_heading(), self.initialHeading)[1]) > abs(self.rotateBy):
+            return py_trees.common.Status.SUCCESS
+
+        # print(blackboard.get_angle_from_to(blackboard.get_heading(), self.initialHeading)[1])
 
         blackboard.leftMotor.setVelocity(self.vL)
         blackboard.rightMotor.setVelocity(self.vR)
