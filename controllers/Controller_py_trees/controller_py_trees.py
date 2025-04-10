@@ -16,7 +16,7 @@ from mapping_navigation.mapping import Mapping
 # import blackboard singleton
 from blackboard.blackboard import blackboard
 from blackboard.DefaultPoses import defaultPoses
-from controllers.Controller_py_trees.blackboard.data_tree import DataTree
+from blackboard.data_tree import DataTree
 
 # import all IK related behaviors
 from IK_behaviours.ResetArm import ResetArm
