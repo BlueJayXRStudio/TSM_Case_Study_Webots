@@ -5,7 +5,7 @@ class MoveToRL(py_trees.behaviour.Behaviour):
     def __init__(self, name, WP):
         super(MoveToRL, self).__init__(name)
         self.WP = WP
-        
+
     def setup(self):
         self.logger.debug("  %s [Foo::setup()]" % self.name)
 
@@ -21,3 +21,4 @@ class MoveToRL(py_trees.behaviour.Behaviour):
             % (self.name, self.status, new_status)
         )
 
+    
