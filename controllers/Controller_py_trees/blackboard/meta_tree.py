@@ -5,7 +5,7 @@ from helpers.misc_helpers import *
 
 # precise navigation with reactive corrections
 class MetaTree(py_trees.behaviour.Behaviour):
-    def __init__(self, name, preconditions, max_speed=0.5):
+    def __init__(self, name):
         super(MetaTree, self).__init__(name)
 
     def setup(self):
@@ -16,6 +16,7 @@ class MetaTree(py_trees.behaviour.Behaviour):
         self.logger.debug("  %s [LookAt::initialise()]" % self.name)
         
     def update(self):        
+        blackboard.update_velocity()
 
         return py_trees.common.Status.RUNNING
     

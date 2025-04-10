@@ -16,10 +16,10 @@ from mapping_navigation.mapping import Mapping
 # import blackboard singleton
 from blackboard.blackboard import blackboard
 from blackboard.DefaultPoses import defaultPoses
+from blackboard.meta_tree import MetaTree
 
 # import all IK related behaviors
 from IK_behaviours.ResetArm import ResetArm
-
 
 # import misc behaviors
 from primitive_movements.rotate_clockwise import RotateClockwise
@@ -49,15 +49,17 @@ blackboard.setup(robot)
 #     ResetArm("reset arm to safe position", defaultPoses.default_arm_pos, True, 1),
 # ], memory=True)
 
-meta_tree =  # to keep consistent time dependent meta-data such as wheel velocity 
+meta_tree = MetaTree("meta tree") # to keep consistent time dependent meta-data such as wheel velocity 
 tree = RotateClockwise("rotate clockwise", [], 2)
 
 
 # Invoke setup on all nodes before stepping through
+meta_tree.setup_with_descendants()
 tree.setup_with_descendants()
 
 # step through webots robot and tick behavior tree
 while robot.step(blackboard.timestep) != -1:
+    meta_tree.tick_once()
     # step/tick behavior tree
     tree.tick_once()
 

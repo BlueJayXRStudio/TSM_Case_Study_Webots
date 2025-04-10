@@ -1,4 +1,6 @@
 import numpy as np
+from collections import deque
+
 from .DefaultPoses import defaultPoses
 '''
 ORIGINAL ARM CONFIG
@@ -64,8 +66,9 @@ class Blackboard:
         self.timestep = 0
         self.delta_t = 0
 
-        self.prevPosL = 0
-        self.prevPosR = 0
+        self.positionSteps = 10 # how many frames we want to separate between p1 and p0
+        self.wheelPositionsL = deque(maxlen=self.positionSteps)
+        self.wheelPositionsR = deque(maxlen=self.positionSteps)
         
     def setup(self, robot):
         # get timestep
@@ -206,12 +209,9 @@ class Blackboard:
         for name in defaultPoses.joint_names:
             self.joints[name].setPosition(self.encoders[name].getValue())
     
-    # left wheel velocity
-    def lwVel(self):
-        pass
-
-    # right wheel velocity
-    def rwVel(self):
-        pass
+    def update_velocity(self):
+        self.wheelPositionsL.append(self.leftWheelSensor.getValue())
+        self.wheelPositionsR.append(self.rightWheelSensor.getValue())
+        print("hello world!")
 
 blackboard = Blackboard()
