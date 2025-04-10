@@ -25,7 +25,7 @@ class RotateClockwise(py_trees.behaviour.Behaviour):
         blackboard.leftMotor.setVelocity(self.vL)
         blackboard.rightMotor.setVelocity(self.vR)
 
-        # print(f"left wheel vel: {blackboard.lwVel()}, right wheel vel: {blackboard.rwVel()}")
+        print(f"left wheel vel: {blackboard.getLWV()}, right wheel vel: {blackboard.getRWV()}")
         
         for condition in self.preconditions:
             result = condition.CheckRequirement()

@@ -212,6 +212,17 @@ class Blackboard:
     def update_velocity(self):
         self.wheelPositionsL.append(self.leftWheelSensor.getValue())
         self.wheelPositionsR.append(self.rightWheelSensor.getValue())
-        print("hello world!")
+
+    # get left wheel velocity ("nullable")
+    def getLWV(self):
+        if len(self.wheelPositionsL) < 2:
+            return 0
+        return (self.wheelPositionsL[-1] - self.wheelPositionsL[0]) / (self.delta_t * self.positionSteps)
+
+    # get right wheel velocity ("nullable")
+    def getRWV(self):
+        if len(self.wheelPositionsR) < 2:
+            return 0
+        return (self.wheelPositionsR[-1] - self.wheelPositionsR[0]) / (self.delta_t * self.positionSteps)
 
 blackboard = Blackboard()

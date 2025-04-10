@@ -32,26 +32,9 @@ from controller import Supervisor
 robot = Supervisor()
 blackboard.setup(robot)
 
-# # MAIN BEHAVIOR TREE
-# tree = Sequence("Main", children=[
-#     # set arm to a safe position
-#     ResetArm("reset arm to safe position", defaultPoses.default_arm_pos),
-    
-#     # map cspace. Load previously saved map if it exists
-#     Selector("Does map exist?", children=[
-#         DoesMapExist("Test for map"),
-#         Parallel("Mapping", policy=py_trees.common.ParallelPolicy.SuccessOnOne(), children=[
-#             Mapping("map the environment"),
-#             Navigation("move around the table")
-#         ])
-#     ], memory=True),
-
-#     ResetArm("reset arm to safe position", defaultPoses.default_arm_pos, True, 1),
-# ], memory=True)
-
+# SETUP ROOT LEVEL TREES
 dataTree = DataTree("meta tree") # to keep consistent time dependent meta-data such as wheel velocity 
-tree = RotateClockwise("rotate clockwise", [], 2)
-
+tree = RotateCounterclockwise("rotate clockwise", [], 2) # Main behavior tree
 
 # Invoke setup on all nodes before stepping through
 dataTree.setup_with_descendants()
@@ -59,6 +42,7 @@ tree.setup_with_descendants()
 
 # step through webots robot and tick behavior tree
 while robot.step(blackboard.timestep) != -1:
+    # tick data tree
     dataTree.tick_once()
     # step/tick behavior tree
     tree.tick_once()
