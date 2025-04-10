@@ -14,7 +14,7 @@ arm_6_joint | -1.39 |  1.39 |
 arm_7_joint | -2.07 |  2.07 |
 '''
 
-# Custom blackboard as a singleton     
+# Custom blackboard as a singleton and a Webots API adapter    
 class Blackboard:
     # ensure that only one instance can exist
     _instance = None
@@ -72,6 +72,9 @@ class Blackboard:
 
         self.headingSteps = 10 # how many frames we want to separate between vec1 and vec0
         self.robotHeadings = deque(maxlen=self.headingSteps)
+
+        self.coordSteps = 10 # how many frames we want to separate between pos1 and pos0
+        self.robotCoords = deque(maxlen=self.coordSteps)
         
     def setup(self, robot):
         # get timestep
@@ -219,6 +222,11 @@ class Blackboard:
     def update_true_angular_velocity(self):
         self.robotHeadings.append((self.compass.getValues()[1], self.compass.getValues()[0], 0))
 
+    def update_true_velocity(self):
+        xw = blackboard.gps.getValues()[0]
+        yw = blackboard.gps.getValues()[1]
+        self.robotCoords.append((xw, yw))
+
     # get left wheel velocity
     def getLWV(self):
         if len(self.wheelPositionsL) < 2:
@@ -251,5 +259,15 @@ class Blackboard:
         omega_deg = np.degrees(signed_angle_rad) / (self.delta_t * self.positionSteps)
 
         return omega_rad, omega_deg
+    
+    # get true positional velocity
+    def getTrueVelocity(self):
+        if len(self.robotCoords) < 2:
+            return 0
+
+        a = np.array(self.robotCoords[0], dtype=float)
+        b = np.array(self.robotCoords[-1], dtype=float)
+
+        return np.linalg.norm(b - a) / (self.delta_t * self.positionSteps)
     
 blackboard = Blackboard()
