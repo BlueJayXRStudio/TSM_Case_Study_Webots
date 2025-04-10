@@ -35,7 +35,7 @@ class RotateCounterclockwise(py_trees.behaviour.Behaviour):
         
         # Ensure action has been run for at least 1000ms
         # before checking for inactivity
-        if self.runtime > 1.0 and abs(blackboard.getTrueAngularVelocity()[1]) < 3.0:
+        if self.runtime > 2.0 and abs(blackboard.getTrueAngularVelocity()[1]) < 3.0:
             return py_trees.common.Status.FAILURE
 
         blackboard.leftMotor.setVelocity(self.vL)

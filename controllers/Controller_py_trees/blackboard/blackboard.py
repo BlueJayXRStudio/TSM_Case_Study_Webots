@@ -1,5 +1,6 @@
 import numpy as np
 from collections import deque
+from helpers.misc_helpers import *
 
 from .DefaultPoses import defaultPoses
 
@@ -54,11 +55,12 @@ class Blackboard:
         self.rightWheelSensor = None
         self.visual_marker = None
         self.visual_marker_1 = None
+        self.marker = None
 
         self.angles = np.linspace(4.19 / 2 + np.pi/2, -4.19 / 2 + np.pi/2, 667)
         self.angles = self.angles[80:len(self.angles)-80]
 
-        self.MAXSPEED = 6.0
+        self.MAXSPEED = 10.0
 
         self.joints = {}
         self.encoders = {}
@@ -119,6 +121,7 @@ class Blackboard:
         # COMMISSION markers for visualization purpose
         self.visual_marker = self.robot.getFromDef("marker").getField("translation")
         self.visual_marker_1 = self.robot.getFromDef("marker_1").getField("translation")
+        self.marker = blackboard.robot.getFromDef("marker").getField("translation")
 
         # Manually define way points for mapping
         WP = [(1.09817, 0.3374), (3.18446, 0.92647), (3.18551, 2.41334), (3.18551, 2.41334), (3.02884, 4.19974), (2.96884, 5.76974), (2.06884, 6.76974), (0.978838, 6.43974), (0.978838, 6.43974), (2.06884, 6.76974), (2.96884, 5.76974), (3.02884, 4.19974), (3.18551, 2.41334), (3.18551, 2.41334), (4.58, 3.03), (4.58, 3.03), (5.02, 4.28), (5.02, 4.28), (5.01, 5.54), (5.01, 5.54), (5.02, 4.28), (5.02, 4.28), (7.85, 4.45), (7.85, 4.45), (5.02, 4.28)]
@@ -275,5 +278,13 @@ class Blackboard:
         b = np.array(self.robotCoords[-1], dtype=float)
 
         return np.linalg.norm(b - a) / (self.delta_t * self.positionSteps)
-    
+
+    def isLookingAt(self, WP, threshold):
+        xw = blackboard.gps.getValues()[0]
+        yw = blackboard.gps.getValues()[1]
+        
+        if compute_dot_product_error((xw, yw, 0), (self.compass.getValues()[1], self.compass.getValues()[0], 0), (WP[0], WP[1], 0)) > threshold:
+            return True
+        return False
+
 blackboard = Blackboard()

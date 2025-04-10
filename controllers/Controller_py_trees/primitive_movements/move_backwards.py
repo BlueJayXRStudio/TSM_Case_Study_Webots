@@ -11,6 +11,7 @@ class MoveBackwards(py_trees.behaviour.Behaviour):
         self.preconditions = preconditions
         self.initial_position = None
         self.min_dist = min_dist
+        self.runtime = 0
 
     def setup(self):
         self.logger.debug(f"  {self.name} [Foo::setup()]")
@@ -23,6 +24,7 @@ class MoveBackwards(py_trees.behaviour.Behaviour):
         blackboard.rightMotor.setVelocity(0.0)
         self.vL, self.vR = -self.MAXSPEED, -self.MAXSPEED
         self.initial_position = blackboard.get_coord()
+        self.runtime = 0
 
     def update(self):                
         # print(f"left wheel vel: {blackboard.getLWV()}, right wheel vel: {blackboard.getRWV()}")
@@ -35,11 +37,16 @@ class MoveBackwards(py_trees.behaviour.Behaviour):
                 return result
 
         if np.linalg.norm(blackboard.get_coord()-self.initial_position) > self.min_dist:
-            return py_trees.common.Status.SUCCESS
+            return py_trees.common.Status.FAILURE
+        
+        # Ensure action has been run for at least 1000ms
+        # before checking for inactivity
+        if self.runtime > 1.0 and abs(blackboard.getTrueVelocity()) < 0.01:
+            return py_trees.common.Status.FAILURE
         
         blackboard.leftMotor.setVelocity(self.vL)
         blackboard.rightMotor.setVelocity(self.vR)
-
+        self.runtime += blackboard.delta_t
         return py_trees.common.Status.RUNNING
     
     def terminate(self, new_status):

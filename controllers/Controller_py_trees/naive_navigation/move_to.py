@@ -17,7 +17,6 @@ class MoveTo(py_trees.behaviour.Behaviour):
 
     def setup(self):
         self.robot_radius = 0.30 # 0.265
-        self.marker = blackboard.robot.getFromDef("marker").getField("translation")
         self.logger.debug("  %s [Foo::setup()]" % self.name)
 
     def initialise(self):
@@ -33,7 +32,7 @@ class MoveTo(py_trees.behaviour.Behaviour):
     def update(self):
         self.logger.debug("  %s [Foo::update()]" % self.name)
 
-        self.marker.setSFVec3f([*self.WP, 0])
+        blackboard.marker.setSFVec3f([*self.WP, 0])
 
         xw = blackboard.gps.getValues()[0]
         yw = blackboard.gps.getValues()[1]
@@ -51,17 +50,17 @@ class MoveTo(py_trees.behaviour.Behaviour):
 
         # print(f"rx: {rx:.3f}, ry: {ry:.3f}")
         
-        steering_adjustment = compute_pid_control(self, (xw, yw, 0), (blackboard.compass.getValues()[1],blackboard.compass.getValues()[0], 0), self.WP[self.index], blackboard.delta_t)
+        steering_adjustment = compute_pid_control(self, (xw, yw, 0), (blackboard.compass.getValues()[1],blackboard.compass.getValues()[0], 0), self.WP, blackboard.delta_t)
 
         # base_speed = 0.8 * blackboard.MAXSPEED
         base_speed = max(0.1 * blackboard.MAXSPEED, 0.8 * blackboard.MAXSPEED - p2*ry)
-        self.vL = max(min(base_speed - steering_adjustment*5.0 - rx * p1, blackboard.MAXSPEED), -blackboard.MAXSPEED)
-        self.vR = max(min(base_speed + steering_adjustment*5.0 + rx * p1, blackboard.MAXSPEED), -blackboard.MAXSPEED)
+        self.vL = max(min(base_speed - steering_adjustment*1.0 - rx * p1, blackboard.MAXSPEED), -blackboard.MAXSPEED)
+        self.vR = max(min(base_speed + steering_adjustment*1.0 + rx * p1, blackboard.MAXSPEED), -blackboard.MAXSPEED)
 
         blackboard.leftMotor.setVelocity(self.vL)
         blackboard.rightMotor.setVelocity(self.vR)
 
-        if self.index < len(self.WP)-1 and rho < 0.4:
+        if rho < 0.4:
             return py_trees.common.Status.SUCCESS
         
         return py_trees.common.Status.RUNNING
@@ -71,9 +70,7 @@ class MoveTo(py_trees.behaviour.Behaviour):
             "  %s [Foo::terminate().terminate()][%s->%s]"
             % (self.name, self.status, new_status)
         )
-        # redundant, but make sure that index is reset to 0
-        self.index = 0
         # ensure that the robot stops after it reaches its last way point
-        self.leftMotor.setVelocity(0.0)
-        self.rightMotor.setVelocity(0.0)
+        blackboard.leftMotor.setVelocity(0.0)
+        blackboard.rightMotor.setVelocity(0.0)
     
