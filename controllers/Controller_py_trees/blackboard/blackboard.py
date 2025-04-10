@@ -177,9 +177,28 @@ class Blackboard:
                 print(f"Sensor, {key}_sensor, does not exist.")
 
     def get_coord(self):
+        """
+        Gets robot's world coordinates
+
+        Returns:
+            np.array: np.array((x, y)) world coordinates as floats.
+        """
+            
         xw = self.gps.getValues()[0]
         yw = self.gps.getValues()[1]
         return np.array((xw, yw))
+
+    def get_heading(self):
+        """
+        Gets robot's world heading as unit vector
+
+        Returns:
+            np.array: np.array((x, y)) relative (robot coordinate frame) coordinates as floats.
+        """
+
+        a = self.compass.getValues()[1]
+        b = self.compass.getValues()[0]
+        return np.array((a, b))
 
     # get unitless difference between current measured pose and given target pose
     def get_joint_diff(self, pose, ignore_fingers=False):

@@ -27,6 +27,7 @@ from primitive_movements.rotate_counterclockwise import RotateCounterclockwise
 from primitive_movements.move_backwards import MoveBackwards
 
 from naive_navigation.follow_waypoints import FollowWaypoints
+from naive_navigation.test_behavior import TestBehavior
 
 # webots API
 from controller import Supervisor
@@ -37,9 +38,10 @@ blackboard.setup(robot)
 
 # SETUP ROOT LEVEL TREES
 dataTree = DataTree("meta tree") # to keep consistent time dependent meta-data such as wheel velocity 
-tree = RotateClockwise("rotate clockwise", [], 2) # Main behavior tree
+# tree = RotateClockwise("rotate clockwise", [], 2) # Main behavior tree
 # tree = RotateCounterclockwise("rotate counter-clockwise", [], 2) # Main behavior tree
 # tree = MoveBackwards("move backwards", [], 2, 0.05) # Main behavior tree
+tree = TestBehavior("test behavior")
 
 # tree = Selector("Main", children=[
 #     RotateClockwise("rotate clockwise", [], 2), # Main behavior tree

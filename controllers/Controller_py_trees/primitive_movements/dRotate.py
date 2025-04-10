@@ -4,10 +4,12 @@ from blackboard.blackboard import blackboard
 from helpers.misc_helpers import *
 
 # precise navigation with reactive corrections
-class RotateClockwise(py_trees.behaviour.Behaviour):
-    def __init__(self, name, preconditions, max_speed=0.5):
-        super(RotateClockwise, self).__init__(name)
+class dRotate(py_trees.behaviour.Behaviour):
+    def __init__(self, name, preconditions, rotate_by, max_speed=0.5):
+        super(dRotate, self).__init__(name)
         self.MAXSPEED = max_speed
+        self.rotateBy = rotate_by
+        # self.initialHeading = blackboard.get_world_pose
         self.preconditions = preconditions
         self.runtime = 0
 
@@ -24,12 +26,6 @@ class RotateClockwise(py_trees.behaviour.Behaviour):
         self.vL, self.vR = self.MAXSPEED, -self.MAXSPEED
 
     def update(self):
-        # print(f"left wheel vel: {blackboard.getLWV()}, right wheel vel: {blackboard.getRWV()}")
-        # print(f"true angular velocity: {blackboard.getTrueAngularVelocity()}")
-        # print(f"true velocity: {blackboard.getTrueVelocity()}")
-        # waypoint = (0, 0)
-        # print (f"angle to waypoint {waypoint}: {blackboard.get_angle_to(waypoint)} ")
-
         for condition in self.preconditions:
             result = condition.CheckRequirement()
             if result != py_trees.common.Status.RUNNING:
