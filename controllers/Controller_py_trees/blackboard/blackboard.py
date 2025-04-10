@@ -197,7 +197,30 @@ class Blackboard:
         theta = np.arctan2(self.compass.getValues()[0], self.compass.getValues()[1])
         return np.array((xw, yw, theta)) 
     
-    # get current encoder values as a pose dictionary 
+    # get angle of body to wp vector in the coordinate frame of the robot heading
+    def get_angle_to(self, wp):
+        if len(self.robotHeadings) < 2:
+            return 0
+
+        pose = self.get_world_pose()
+
+        b = np.array((self.compass.getValues()[1], self.compass.getValues()[0], 0), dtype=float)
+        a = np.array((wp[0] - pose[0], wp[1] - pose[1], 0), dtype=float)
+
+        a /= np.linalg.norm(a)
+        b /= np.linalg.norm(b)
+
+        dot = np.dot(b, a)
+        cross = np.cross(b, a)  
+
+        signed_angle_rad = np.arctan2(cross[-1], dot)
+
+        omega_rad = signed_angle_rad
+        omega_deg = np.degrees(signed_angle_rad)
+
+        return omega_rad, omega_deg
+    
+    # get current encoder values as a pose dictionary (for 6DoF arm)
     def get_pose(self):
         curr_pose = {}
         for name in defaultPoses.joint_names:

@@ -37,7 +37,7 @@ blackboard.setup(robot)
 
 # SETUP ROOT LEVEL TREES
 dataTree = DataTree("meta tree") # to keep consistent time dependent meta-data such as wheel velocity 
-# tree = RotateClockwise("rotate clockwise", [], 2) # Main behavior tree
+tree = RotateClockwise("rotate clockwise", [], 2) # Main behavior tree
 # tree = RotateCounterclockwise("rotate counter-clockwise", [], 2) # Main behavior tree
 # tree = MoveBackwards("move backwards", [], 2, 0.05) # Main behavior tree
 
@@ -64,7 +64,7 @@ dataTree = DataTree("meta tree") # to keep consistent time dependent meta-data s
 
 # ], memory=True)
 
-tree = FollowWaypoints("")
+# tree = FollowWaypoints("")
 
 # Invoke setup on all nodes before stepping through
 dataTree.setup_with_descendants()

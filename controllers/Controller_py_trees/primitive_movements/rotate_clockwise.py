@@ -27,18 +27,21 @@ class RotateClockwise(py_trees.behaviour.Behaviour):
         # print(f"left wheel vel: {blackboard.getLWV()}, right wheel vel: {blackboard.getRWV()}")
         # print(f"true angular velocity: {blackboard.getTrueAngularVelocity()}")
         # print(f"true velocity: {blackboard.getTrueVelocity()}")
-        for condition in self.preconditions:
-            result = condition.CheckRequirement()
-            if result != py_trees.common.Status.RUNNING:
-                return result
+        waypoint = (0, 0)
+        print (f"angle to waypoint {waypoint}: {blackboard.get_angle_to(waypoint)} ")
 
-        # Ensure action has been run for at least 1000ms
-        # before checking for inactivity
-        if self.runtime > 1.0 and abs(blackboard.getTrueAngularVelocity()[1]) < 3.0:
-            return py_trees.common.Status.FAILURE
+        # for condition in self.preconditions:
+        #     result = condition.CheckRequirement()
+        #     if result != py_trees.common.Status.RUNNING:
+        #         return result
 
-        blackboard.leftMotor.setVelocity(self.vL)
-        blackboard.rightMotor.setVelocity(self.vR)
+        # # Ensure action has been run for at least 1000ms
+        # # before checking for inactivity
+        # if self.runtime > 1.0 and abs(blackboard.getTrueAngularVelocity()[1]) < 3.0:
+        #     return py_trees.common.Status.FAILURE
+
+        # blackboard.leftMotor.setVelocity(self.vL)
+        # blackboard.rightMotor.setVelocity(self.vR)
         
         self.runtime += blackboard.delta_t
         return py_trees.common.Status.RUNNING

@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36" version="26.2.9">
   <diagram name="Page-1" id="7YX_lSwjEALe1SeLGPOg">
-    <mxGraphModel dx="2954" dy="1061" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1880" dy="675" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -347,6 +347,17 @@
         </mxCell>
         <mxCell id="AmVFyZqg4yC-j_EybBRZ-77" value="&lt;div&gt;Rebalance periodically through the following (&lt;b&gt;exploration&lt;/b&gt;):&lt;/div&gt;π(a | s) = 0.9 * π(a | s) + 0.1 * uniform" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="585" y="4132" width="155" height="88" as="geometry" />
+        </mxCell>
+        <mxCell id="AmVFyZqg4yC-j_EybBRZ-79" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="AmVFyZqg4yC-j_EybBRZ-71" target="AmVFyZqg4yC-j_EybBRZ-71">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="AmVFyZqg4yC-j_EybBRZ-82" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;startArrow=open;startFill=0;endArrow=none;dashed=1;" edge="1" parent="1" source="AmVFyZqg4yC-j_EybBRZ-81">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="490" y="3900" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="AmVFyZqg4yC-j_EybBRZ-81" value="Recursively invoke next action, avoid performing previously performed action, and propagate rewards up the chain after completion" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="578" y="3830" width="152" height="90" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
