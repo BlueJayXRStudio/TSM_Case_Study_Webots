@@ -177,8 +177,8 @@ class Blackboard:
                 print(f"Sensor, {key}_sensor, does not exist.")
 
     def get_coord(self):
-        xw = blackboard.gps.getValues()[0]
-        yw = blackboard.gps.getValues()[1]
+        xw = self.gps.getValues()[0]
+        yw = self.gps.getValues()[1]
         return np.array((xw, yw))
 
     # get unitless difference between current measured pose and given target pose
@@ -189,6 +189,13 @@ class Blackboard:
                 continue
             diff_sum += abs(pose[name] - self.encoders[name].getValue())
         return diff_sum
+    
+    # get body world pose
+    def get_world_pose(self):
+        xw = self.gps.getValues()[0]
+        yw = self.gps.getValues()[1]
+        theta = np.arctan2(self.compass.getValues()[0], self.compass.getValues()[1])
+        return np.array((xw, yw, theta)) 
     
     # get current encoder values as a pose dictionary 
     def get_pose(self):
