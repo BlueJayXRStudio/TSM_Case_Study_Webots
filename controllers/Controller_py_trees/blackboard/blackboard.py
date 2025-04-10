@@ -233,17 +233,22 @@ class Blackboard:
 
     def getTrueAngularVelocity(self):
         if len(self.robotHeadings) < 2:
-            return 0 
-        dot = np.dot(self.robotHeadings[-1], self.robotHeadings[0])
-        cross = np.cross(self.robotHeadings[-1], self.robotHeadings[0])
-        cross = cross[-1] / np.linalg.norm(cross)
+            return 0
 
-        mag_a = np.linalg.norm(self.robotHeadings[-1])
-        mag_b = np.linalg.norm(self.robotHeadings[0])
+        a = np.array(self.robotHeadings[0], dtype=float)
+        b = np.array(self.robotHeadings[-1], dtype=float)
 
-        cos_theta = dot / (mag_a * mag_b)
-        theta_rad = np.arccos(cos_theta) * cross
-        theta_deg = np.degrees(theta_rad) * cross
-        return theta_rad
+        a /= np.linalg.norm(a)
+        b /= np.linalg.norm(b)
+
+        dot = np.dot(b, a)
+        cross = np.cross(b, a)  
+
+        signed_angle_rad = np.arctan2(cross[-1], dot)
+
+        omega_rad = signed_angle_rad / (self.delta_t * self.positionSteps)
+        omega_deg = np.degrees(signed_angle_rad) / (self.delta_t * self.positionSteps)
+
+        return omega_rad, omega_deg
     
 blackboard = Blackboard()
