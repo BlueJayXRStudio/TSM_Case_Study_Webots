@@ -219,18 +219,19 @@ class Blackboard:
     def update_true_angular_velocity(self):
         self.robotHeadings.append((self.compass.getValues()[1], self.compass.getValues()[0], 0))
 
-    # get left wheel velocity ("nullable")
+    # get left wheel velocity
     def getLWV(self):
         if len(self.wheelPositionsL) < 2:
             return 0
         return (self.wheelPositionsL[-1] - self.wheelPositionsL[0]) / (self.delta_t * self.positionSteps)
 
-    # get right wheel velocity ("nullable")
+    # get right wheel velocity
     def getRWV(self):
         if len(self.wheelPositionsR) < 2:
             return 0
         return (self.wheelPositionsR[-1] - self.wheelPositionsR[0]) / (self.delta_t * self.positionSteps)
 
+    # get true angular velocity
     def getTrueAngularVelocity(self):
         if len(self.robotHeadings) < 2:
             return 0
