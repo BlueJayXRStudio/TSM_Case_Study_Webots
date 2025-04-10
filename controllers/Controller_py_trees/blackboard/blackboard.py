@@ -193,7 +193,7 @@ class Blackboard:
         Gets robot's world heading as unit vector
 
         Returns:
-            np.array: np.array((x, y)) relative (robot coordinate frame) coordinates as floats.
+            np.array: np.array((x, y))
         """
 
         a = self.compass.getValues()[1]
@@ -216,16 +216,51 @@ class Blackboard:
         theta = np.arctan2(self.compass.getValues()[0], self.compass.getValues()[1])
         return np.array((xw, yw, theta)) 
     
-    # get angle of body to wp vector in the coordinate frame of the robot heading
+    def get_angle_from_to(self, current_heading, initial_heading):
+        """
+        get angle of initial_heading in the robot's coordinate frame
+
+        Args:
+            wp ((x, y)): world coordinate 2D tuple 
+
+        Returns:
+            (rad, deg): the angle in radian and degree
+        """
+        a = np.array((current_heading[1], current_heading[0], 0), dtype=float)
+        b = np.array((initial_heading[1], initial_heading[0], 0), dtype=float)
+        
+        a /= np.linalg.norm(a)
+        b /= np.linalg.norm(b)
+
+        dot = np.dot(b, a)
+        cross = np.cross(b, a)  
+
+        signed_angle_rad = np.arctan2(cross[-1], dot)
+
+        omega_rad = signed_angle_rad
+        omega_deg = np.degrees(signed_angle_rad)
+
+        return omega_rad, omega_deg
+    
     def get_angle_to(self, wp):
+        """
+        get angle of wp vector in the robot's coordinate frame
+
+        Args:
+            wp ((x, y)): world coordinate 2D tuple 
+
+        Returns:
+            (rad, deg): the angle in radian and degree
+        """
+
         if len(self.robotHeadings) < 2:
             return 0
 
         pose = self.get_world_pose()
 
-        b = np.array((self.compass.getValues()[1], self.compass.getValues()[0], 0), dtype=float)
         a = np.array((wp[0] - pose[0], wp[1] - pose[1], 0), dtype=float)
-
+        b = np.array((self.compass.getValues()[1], self.compass.getValues()[0], 0), dtype=float)
+        
         a /= np.linalg.norm(a)
         b /= np.linalg.norm(b)
 

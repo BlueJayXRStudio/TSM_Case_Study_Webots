@@ -9,7 +9,7 @@ class dRotate(py_trees.behaviour.Behaviour):
         super(dRotate, self).__init__(name)
         self.MAXSPEED = max_speed
         self.rotateBy = rotate_by
-        # self.initialHeading = blackboard.get_world_pose
+        self.initialHeading = blackboard.get_heading()
         self.preconditions = preconditions
         self.runtime = 0
 
