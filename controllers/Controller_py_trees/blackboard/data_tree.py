@@ -17,7 +17,7 @@ class DataTree(py_trees.behaviour.Behaviour):
         
     def update(self):        
         blackboard.update_velocity()
-
+        blackboard.update_true_angular_velocity()
         return py_trees.common.Status.RUNNING
     
     def terminate(self, new_status):

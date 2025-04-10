@@ -69,6 +69,9 @@ class Blackboard:
         self.positionSteps = 10 # how many frames we want to separate between p1 and p0
         self.wheelPositionsL = deque(maxlen=self.positionSteps)
         self.wheelPositionsR = deque(maxlen=self.positionSteps)
+
+        self.headingSteps = 10 # how many frames we want to separate between vec1 and vec0
+        self.robotHeadings = deque(maxlen=self.headingSteps)
         
     def setup(self, robot):
         # get timestep
@@ -213,6 +216,9 @@ class Blackboard:
         self.wheelPositionsL.append(self.leftWheelSensor.getValue())
         self.wheelPositionsR.append(self.rightWheelSensor.getValue())
 
+    def update_true_angular_velocity(self):
+        self.robotHeadings.append((self.compass.getValues()[1], self.compass.getValues()[0], 0))
+
     # get left wheel velocity ("nullable")
     def getLWV(self):
         if len(self.wheelPositionsL) < 2:
@@ -225,4 +231,19 @@ class Blackboard:
             return 0
         return (self.wheelPositionsR[-1] - self.wheelPositionsR[0]) / (self.delta_t * self.positionSteps)
 
+    def getTrueAngularVelocity(self):
+        if len(self.robotHeadings) < 2:
+            return 0 
+        dot = np.dot(self.robotHeadings[-1], self.robotHeadings[0])
+        cross = np.cross(self.robotHeadings[-1], self.robotHeadings[0])
+        cross = cross[-1] / np.linalg.norm(cross)
+
+        mag_a = np.linalg.norm(self.robotHeadings[-1])
+        mag_b = np.linalg.norm(self.robotHeadings[0])
+
+        cos_theta = dot / (mag_a * mag_b)
+        theta_rad = np.arccos(cos_theta) * cross
+        theta_deg = np.degrees(theta_rad) * cross
+        return theta_rad
+    
 blackboard = Blackboard()
