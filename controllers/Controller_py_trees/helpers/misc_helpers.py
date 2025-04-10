@@ -165,7 +165,7 @@ def compute_cross_product_error(current_pos, current_heading, look_pos):
     return cross_product[-1]
 
 def compute_pid_control(instance, curr_pos, look_pos, wp, dt):        
-    error = instance.compute_cross_product_error(curr_pos, look_pos, wp)
+    error = compute_cross_product_error(curr_pos, look_pos, wp)
     
     instance.integral += error * dt
     derivative = (error - instance.previous_error) / dt

@@ -45,6 +45,23 @@ tree = Selector("Main", children=[
     MoveBackwards("move backwards", [], 2, 0.05) # Main behavior tree
 ], memory = True)
 
+
+# MAIN BEHAVIOR TREE
+tree = Sequence("Main", children=[
+    # set arm to a safe position
+    ResetArm("reset arm to safe position", defaultPoses.default_arm_pos),
+    
+    # map cspace. Load previously saved map if it exists
+    Selector("Does map exist?", children=[
+        DoesMapExist("Test for map"),
+        Parallel("Mapping", policy=py_trees.common.ParallelPolicy.SuccessOnOne(), children=[
+            Mapping("map the environment"),
+            Navigation("move around the table")
+        ])
+    ], memory=True),
+
+], memory=True)
+
 # Invoke setup on all nodes before stepping through
 dataTree.setup_with_descendants()
 tree.setup_with_descendants()
