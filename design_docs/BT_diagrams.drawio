@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36" version="26.2.9">
   <diagram name="Page-1" id="7YX_lSwjEALe1SeLGPOg">
-    <mxGraphModel dx="1182" dy="425" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="2954" dy="1061" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -273,7 +273,7 @@
         </mxCell>
         <mxCell id="AmVFyZqg4yC-j_EybBRZ-63" value="SUCCESS" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="AmVFyZqg4yC-j_EybBRZ-61">
           <mxGeometry x="0.5481" y="3" relative="1" as="geometry">
-            <mxPoint x="1" y="6" as="offset" />
+            <mxPoint x="1" y="15" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="AmVFyZqg4yC-j_EybBRZ-62" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="AmVFyZqg4yC-j_EybBRZ-19" target="AmVFyZqg4yC-j_EybBRZ-66">
@@ -283,7 +283,7 @@
         </mxCell>
         <mxCell id="AmVFyZqg4yC-j_EybBRZ-64" value="FAILURE" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="AmVFyZqg4yC-j_EybBRZ-62">
           <mxGeometry x="0.4909" relative="1" as="geometry">
-            <mxPoint x="1" y="8" as="offset" />
+            <mxPoint x="1" y="17" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="AmVFyZqg4yC-j_EybBRZ-19" value="Rotate slightly Clockwise" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
@@ -318,14 +318,14 @@
         <mxCell id="AmVFyZqg4yC-j_EybBRZ-72" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="AmVFyZqg4yC-j_EybBRZ-60" target="AmVFyZqg4yC-j_EybBRZ-71">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="AmVFyZqg4yC-j_EybBRZ-60" value="(P, Θ,&amp;nbsp;&lt;span class=&quot;mord&quot;&gt;Δ&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;ρ&lt;/span&gt;&lt;span class=&quot;mpunct&quot;&gt;,&amp;nbsp;&lt;/span&gt;&lt;span class=&quot;mspace&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;Δ&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;ϕ,&lt;/span&gt;&amp;nbsp;π(⋅&amp;nbsp;| s)) where P is a set of discretized coordinates, Θ is a set of discretized set of headings,&amp;nbsp;&lt;span class=&quot;mord&quot;&gt;Δ&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;ρ is the set of distances away from the waypoint,&amp;nbsp;&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;Δ&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;ϕ is the set of angles away from the waypoint,&amp;nbsp;&lt;/span&gt;and finally π( ⋅&amp;nbsp;| s)&amp;nbsp;is current probability distribution over the available actions given current state s where&amp;nbsp;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;s&amp;nbsp;&lt;/span&gt;&lt;span class=&quot;mspace&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mrel&quot;&gt;=&amp;nbsp;&lt;/span&gt;&lt;span class=&quot;mspace&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mopen&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mclose&quot;&gt;P, Θ,&amp;nbsp;&lt;span class=&quot;mord&quot;&gt;Δ&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;ρ&lt;/span&gt;&lt;span class=&quot;mpunct&quot;&gt;,&amp;nbsp;&lt;/span&gt;&lt;span class=&quot;mspace&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;Δ&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;ϕ&lt;/span&gt;)&lt;/span&gt;&lt;/span&gt;. Action will be sampled (stochastic)." style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+        <mxCell id="AmVFyZqg4yC-j_EybBRZ-60" value="(P, Θ,&amp;nbsp;&lt;span class=&quot;mord&quot;&gt;Δ&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;ρ&lt;/span&gt;&lt;span class=&quot;mpunct&quot;&gt;,&amp;nbsp;&lt;/span&gt;&lt;span class=&quot;mspace&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;Δ&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;ϕ,&lt;/span&gt;&amp;nbsp;π(⋅&amp;nbsp;| s)) where P is a set of discretized coordinates, Θ is a set of discretized set of headings,&amp;nbsp;&lt;span class=&quot;mord&quot;&gt;Δ&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;ρ is the discretized set of distances away from the waypoint,&amp;nbsp;&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;Δ&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;ϕ is the discretized set of angles away from the waypoint,&amp;nbsp;&lt;/span&gt;and finally π( ⋅&amp;nbsp;| s)&amp;nbsp;is current probability distribution over the available actions given current state s where&amp;nbsp;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;s&amp;nbsp;&lt;/span&gt;&lt;span class=&quot;mspace&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mrel&quot;&gt;=&amp;nbsp;&lt;/span&gt;&lt;span class=&quot;mspace&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mopen&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mclose&quot;&gt;P, Θ,&amp;nbsp;&lt;span class=&quot;mord&quot;&gt;Δ&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;ρ&lt;/span&gt;&lt;span class=&quot;mpunct&quot;&gt;,&amp;nbsp;&lt;/span&gt;&lt;span class=&quot;mspace&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;Δ&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;ϕ&lt;/span&gt;)&lt;/span&gt;&lt;/span&gt;. Action will be sampled (stochastic)." style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
           <mxGeometry x="294.5" y="3670" width="207" height="160" as="geometry" />
         </mxCell>
         <mxCell id="AmVFyZqg4yC-j_EybBRZ-65" value="Increment this action in π(a | s)&amp;nbsp;by a factor (say 110%), then &lt;b&gt;normalize &lt;/b&gt;the distribution&amp;nbsp;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="96.25" y="4132" width="127" height="90" as="geometry" />
+          <mxGeometry x="96.25" y="4138" width="127" height="90" as="geometry" />
         </mxCell>
         <mxCell id="AmVFyZqg4yC-j_EybBRZ-66" value="Discount this action in π(a | s)&amp;nbsp;by a factor (say 90%), then &lt;b&gt;normalize &lt;/b&gt;the distribution&amp;nbsp;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="254.75" y="4132" width="127" height="90" as="geometry" />
+          <mxGeometry x="254.75" y="4138" width="127" height="90" as="geometry" />
         </mxCell>
         <mxCell id="AmVFyZqg4yC-j_EybBRZ-67" value="Heavily favor actions that will move the robot towards the goal or make it look at the goal. Account for this then also &lt;b&gt;normalize.&lt;/b&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="430" y="4132" width="127" height="90" as="geometry" />
@@ -344,6 +344,9 @@
         </mxCell>
         <mxCell id="AmVFyZqg4yC-j_EybBRZ-71" value="&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;mspace&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mrel&quot;&gt;∼&lt;/span&gt;&lt;span class=&quot;mspace&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;π&lt;/span&gt;&lt;span class=&quot;mopen&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;⋅&lt;/span&gt;&lt;span class=&quot;mspace&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mrel&quot;&gt;∣&lt;/span&gt;&lt;span class=&quot;mspace&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;mclose&quot;&gt;)&amp;nbsp;&lt;/span&gt;&lt;span class=&quot;mspace&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord text&quot;&gt;&lt;span class=&quot;mord&quot;&gt;where&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;div&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;mspace&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;s&amp;nbsp;&lt;/span&gt;&lt;span class=&quot;mspace&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mrel&quot;&gt;=&amp;nbsp;&lt;/span&gt;&lt;span class=&quot;mspace&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mopen&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mclose&quot;&gt;P, Θ,&amp;nbsp;&lt;span class=&quot;mord&quot;&gt;Δ&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;ρ&lt;/span&gt;&lt;span class=&quot;mpunct&quot;&gt;,&amp;nbsp;&lt;/span&gt;&lt;span class=&quot;mspace&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;Δ&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;ϕ&lt;/span&gt;)&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="338" y="3862" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="AmVFyZqg4yC-j_EybBRZ-77" value="&lt;div&gt;Rebalance periodically through the following (&lt;b&gt;exploration&lt;/b&gt;):&lt;/div&gt;π(a | s) = 0.9 * π(a | s) + 0.1 * uniform" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="585" y="4132" width="155" height="88" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
