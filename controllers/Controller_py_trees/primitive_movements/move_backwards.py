@@ -4,12 +4,13 @@ from blackboard.blackboard import blackboard
 from helpers.misc_helpers import *
 
 # precise navigation with reactive corrections
-class RotateCounterclockwise(py_trees.behaviour.Behaviour):
-    def __init__(self, name, preconditions, max_speed=0.5):
-        super(RotateCounterclockwise, self).__init__(name)
+class MoveBackwards(py_trees.behaviour.Behaviour):
+    def __init__(self, name, preconditions, max_speed=0.5, min_dist=0.05):
+        super(MoveBackwards, self).__init__(name)
         self.MAXSPEED = max_speed
         self.preconditions = preconditions
-        self.runtime = 0
+        self.initial_position = None
+        self.min_dist = min_dist
 
     def setup(self):
         self.logger.debug(f"  {self.name} [Foo::setup()]")
@@ -20,10 +21,10 @@ class RotateCounterclockwise(py_trees.behaviour.Behaviour):
         
         blackboard.leftMotor.setVelocity(0.0)
         blackboard.rightMotor.setVelocity(0.0)
-        self.runtime = 0
-        self.vL, self.vR = -self.MAXSPEED, self.MAXSPEED
+        self.vL, self.vR = -self.MAXSPEED, -self.MAXSPEED
+        self.initial_position = blackboard.get_coord()
 
-    def update(self):        
+    def update(self):                
         # print(f"left wheel vel: {blackboard.getLWV()}, right wheel vel: {blackboard.getRWV()}")
         # print(f"true angular velocity: {blackboard.getTrueAngularVelocity()}")
         # print(f"true velocity: {blackboard.getTrueVelocity()}")
@@ -32,16 +33,13 @@ class RotateCounterclockwise(py_trees.behaviour.Behaviour):
             result = condition.CheckRequirement()
             if result != py_trees.common.Status.RUNNING:
                 return result
-        
-        # Ensure action has been run for at least 1000ms
-        # before checking for inactivity
-        if self.runtime > 1.0 and abs(blackboard.getTrueAngularVelocity()[1]) < 3.0:
-            return py_trees.common.Status.FAILURE
 
+        if np.linalg.norm(blackboard.get_coord()-self.initial_position) > self.min_dist:
+            return py_trees.common.Status.SUCCESS
+        
         blackboard.leftMotor.setVelocity(self.vL)
         blackboard.rightMotor.setVelocity(self.vR)
-        
-        self.runtime += blackboard.delta_t
+
         return py_trees.common.Status.RUNNING
     
     def terminate(self, new_status):

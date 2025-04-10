@@ -2,6 +2,7 @@ import numpy as np
 from collections import deque
 
 from .DefaultPoses import defaultPoses
+
 '''
 ORIGINAL ARM CONFIG
             |  min  |  max  |
@@ -171,6 +172,11 @@ class Blackboard:
                 self.camera_joint_encoders[key].enable(self.timestep)
             else:
                 print(f"Sensor, {key}_sensor, does not exist.")
+
+    def get_coord(self):
+        xw = blackboard.gps.getValues()[0]
+        yw = blackboard.gps.getValues()[1]
+        return np.array((xw, yw))
 
     # get unitless difference between current measured pose and given target pose
     def get_joint_diff(self, pose, ignore_fingers=False):

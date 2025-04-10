@@ -23,10 +23,7 @@ class RotateClockwise(py_trees.behaviour.Behaviour):
         self.runtime = 0
         self.vL, self.vR = self.MAXSPEED, -self.MAXSPEED
 
-    def update(self):        
-        blackboard.leftMotor.setVelocity(self.vL)
-        blackboard.rightMotor.setVelocity(self.vR)
-
+    def update(self):
         # print(f"left wheel vel: {blackboard.getLWV()}, right wheel vel: {blackboard.getRWV()}")
         # print(f"true angular velocity: {blackboard.getTrueAngularVelocity()}")
         # print(f"true velocity: {blackboard.getTrueVelocity()}")
@@ -36,10 +33,14 @@ class RotateClockwise(py_trees.behaviour.Behaviour):
             if result != py_trees.common.Status.RUNNING:
                 return result
 
-        # ensure action has been run for at least 1000ms
+        # Ensure action has been run for at least 1000ms
+        # before checking for inactivity
         if self.runtime > 1.0 and abs(blackboard.getTrueAngularVelocity()[1]) < 3.0:
             return py_trees.common.Status.FAILURE
 
+        blackboard.leftMotor.setVelocity(self.vL)
+        blackboard.rightMotor.setVelocity(self.vR)
+        
         self.runtime += blackboard.delta_t
         return py_trees.common.Status.RUNNING
     

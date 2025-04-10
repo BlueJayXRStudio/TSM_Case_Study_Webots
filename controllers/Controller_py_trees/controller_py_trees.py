@@ -24,6 +24,7 @@ from IK_behaviours.ResetArm import ResetArm
 # import misc behaviors
 from primitive_movements.rotate_clockwise import RotateClockwise
 from primitive_movements.rotate_counterclockwise import RotateCounterclockwise
+from primitive_movements.move_backwards import MoveBackwards
 
 # webots API
 from controller import Supervisor
@@ -34,7 +35,15 @@ blackboard.setup(robot)
 
 # SETUP ROOT LEVEL TREES
 dataTree = DataTree("meta tree") # to keep consistent time dependent meta-data such as wheel velocity 
-tree = RotateClockwise("rotate clockwise", [], 2) # Main behavior tree
+# tree = RotateClockwise("rotate clockwise", [], 2) # Main behavior tree
+# tree = RotateCounterclockwise("rotate counter-clockwise", [], 2) # Main behavior tree
+# tree = MoveBackwards("move backwards", [], 2, 0.05) # Main behavior tree
+
+tree = Selector("Main", children=[
+    RotateClockwise("rotate clockwise", [], 2), # Main behavior tree
+    RotateCounterclockwise("rotate counter-clockwise", [], 2), # Main behavior tree
+    MoveBackwards("move backwards", [], 2, 0.05) # Main behavior tree
+], memory = True)
 
 # Invoke setup on all nodes before stepping through
 dataTree.setup_with_descendants()
