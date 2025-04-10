@@ -4,9 +4,9 @@ from blackboard.blackboard import blackboard
 from helpers.misc_helpers import *
 
 # precise navigation with reactive corrections
-class MetaTree(py_trees.behaviour.Behaviour):
+class DataTree(py_trees.behaviour.Behaviour):
     def __init__(self, name):
-        super(MetaTree, self).__init__(name)
+        super(DataTree, self).__init__(name)
 
     def setup(self):
         self.logger.debug("  %s [LookAt::setup()]" % self.name)
