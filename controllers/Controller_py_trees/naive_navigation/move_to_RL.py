@@ -34,7 +34,8 @@ class MoveToRL(py_trees.behaviour.Behaviour):
             self.current_subtree.tick_once()
             if self.current_subtree.status == py_trees.common.Status.RUNNING:
                 return py_trees.common.Status.RUNNING
-            
+            else:
+                print(self.current_subtree.status)
 
         current_coord = blackboard.get_coord()
         discrete_coord = quantize_position(current_coord[0], current_coord[1], self.cell_size)
@@ -45,6 +46,7 @@ class MoveToRL(py_trees.behaviour.Behaviour):
         if key not in self.distributions:
             self.distributions[key] = [0.25, 0.25, 0.25, 0.25]
 
+        # print(self.distributions)
         action_index = np.random.choice(len(self.distributions[key]), p=self.distributions[key])
 
         self.current_subtree = self.actions[action_index]()
@@ -54,6 +56,12 @@ class MoveToRL(py_trees.behaviour.Behaviour):
     def CheckRequirement(self):
         return py_trees.common.Status.RUNNING
 
+    def predict_pose(self):
+        pass
+
+    def predict_heading(self):
+        pass
+    
     def rotate_CW(self):
         return dRotate("rotate cw", [self], 360/self.angle_bins, 2)
 
@@ -65,7 +73,7 @@ class MoveToRL(py_trees.behaviour.Behaviour):
 
     def move_backwards(self):
         return dMove("move backwards", [self], -self.cell_size, 2)
-
+    
     def terminate(self, new_status):
         self.logger.debug(
             "  %s [Foo::terminate().terminate()][%s->%s]"
