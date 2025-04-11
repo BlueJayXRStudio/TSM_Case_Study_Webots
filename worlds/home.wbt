@@ -36,8 +36,8 @@ WorldInfo {
   lineScale 1
 }
 Viewpoint {
-  orientation 0.563942234267885 -0.0029771433608525564 -0.8258088719712054 3.1448350149383524
-  position 10.068387299139498 3.17704766950613 17.974448848471834
+  orientation 0.5840178434740008 0.040853086092836124 -0.8107121461164062 3.023003165148948
+  position 11.314128187366057 3.0563236697474165 23.773819954311882
   near 0.5
 }
 TexturedBackground {
@@ -1562,8 +1562,8 @@ Robot {
                                   }
                                 ]
                                 endPoint DEF ARM_1 Solid {
-                                  translation 0.025099999999999883 0.19400000000000012 -0.17099999999999999
-                                  rotation 0 0 1 0.010000000005996238
+                                  translation 0.025099999999999907 0.19400000000000012 -0.17099999999999999
+                                  rotation 0 0 1 0.010000000005818603
                                   children [
                                     DEF ARM_1_SH1 Shape {
                                       appearance PBRAppearance {
@@ -2020,7 +2020,7 @@ Robot {
                                                               ]
                                                               endPoint DEF ARM_6 Solid {
                                                                 translation 0 0 0.15
-                                                                rotation -0.5773502688662824 -0.5773502693514209 -0.5773502693511741 2.0944000004836143
+                                                                rotation -0.5773502688662824 -0.5773502693514209 -0.5773502693511742 2.0944000004836143
                                                                 children [
                                                                   DEF ARM_6_SH1 Shape {
                                                                     appearance PBRAppearance {
@@ -2075,7 +2075,7 @@ Robot {
                                                                     ]
                                                                     endPoint DEF WRIST Solid {
                                                                       translation 0.05500140595921979 8.845160978158514e-05 -2.591450484320981e-07
-                                                                      rotation -0.6958894475986198 0.17739573416724663 -0.6958941228521413 2.7904520334089176
+                                                                      rotation -0.6958894475986199 0.17739573416724666 -0.6958941228521414 2.7904520334089176
                                                                       children [
                                                                         Pose {
                                                                           rotation 1 0 0 1.570796
@@ -5579,7 +5579,7 @@ Robot {
       }
       endPoint DEF CASTER_WHEEL_FRONT_RIGHT Solid {
         translation 0.16947683713749423 -0.10202176565922294 -0.03236682550772925
-        rotation -0.9904420012050608 0.1379298399517978 -3.872706691555223e-05 1.2880327907951714e-05
+        rotation -0.9904420012050609 0.13792983995179783 -3.872706691555224e-05 1.2880327907951714e-05
         children [
           DEF SMALL_WHEEL_JOINT HingeJoint {
             jointParameters HingeJointParameters {
