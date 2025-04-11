@@ -34,6 +34,12 @@ class MoveToRL(py_trees.behaviour.Behaviour):
     def update(self):
         self.logger.debug("  %s [Foo::update()]" % self.name)
 
+        coord = blackboard.get_coord()
+
+        rho = np.sqrt((coord[0] - self.WP[0])**2 + (coord[1] - self.WP[1])**2)
+        if rho < 0.4:
+            return py_trees.common.Status.SUCCESS
+
         if self.current_subtree:
             self.current_subtree.tick_once()
             if self.current_subtree.status == py_trees.common.Status.RUNNING:
@@ -109,4 +115,6 @@ class MoveToRL(py_trees.behaviour.Behaviour):
             "  %s [Foo::terminate().terminate()][%s->%s]"
             % (self.name, self.status, new_status)
         )
-
+        
+        blackboard.leftMotor.setVelocity(0.0)
+        blackboard.rightMotor.setVelocity(0.0)
