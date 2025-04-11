@@ -7,7 +7,7 @@ from primitive_logic.a_looking_at import a_LookingAt
 from primitive_movements.move_backwards import MoveBackwards
 from primitive_movements.rotate_clockwise import RotateClockwise
 from primitive_movements.rotate_counterclockwise import RotateCounterclockwise
-from naive_navigation.move_to import MoveTo
+from naive_navigation.move_to_RL import MoveToRL
 
 import numpy as np
 from blackboard.blackboard import blackboard
@@ -47,20 +47,7 @@ class FollowWaypoints(py_trees.behaviour.Behaviour):
 
     def getNewSubtree(self):
         self.a_LookingAt = a_LookingAt("", self.WP[self.index])
-        self.current_subtree = Sequence(f"Move To WP{self.index}", children=[
-            Retry(f"Repeat Until Success {self.index}", 
-                Selector(
-                    "Looking At?", children=[
-                        a_LookingAt("atomic looking at", self.WP[self.index]),
-                        RotateCounterclockwise("rotating counter-clockwise", [self.a_LookingAt], 1),
-                        RotateClockwise("rotating clockwise", [self.a_LookingAt], 1),
-                        MoveBackwards("moving backwards", [self.a_LookingAt])
-                    ], 
-                    memory=True
-                ), 
-                num_failures=100000000),
-            MoveTo(f"moving to waypoint{self.index}", self.WP[self.index])
-        ], memory=True)
+        self.current_subtree = MoveToRL(f"moving to waypoint{self.index}", [], self.WP[self.index])
 
     def terminate(self, new_status):
         self.logger.debug(

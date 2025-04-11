@@ -46,7 +46,8 @@ dataTree = DataTree("meta tree") # to keep consistent time dependent meta-data s
 # tree = MoveBackwards("move backwards", [], 2, 0.05) # Main behavior tree
 # tree = dRotate("", [], 90, 2)
 # tree = dMove("", [], 0.0254 * 2, 4)
-tree = MoveToRL("", [], (1.09817, 0.3374))
+# tree = MoveToRL("", [], (1.09817, 0.3374))
+tree = FollowWaypoints("")
 # tree = TestBehavior("test behavior")
 
 # tree = Selector("Main", children=[

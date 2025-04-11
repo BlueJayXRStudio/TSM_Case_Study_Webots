@@ -45,7 +45,7 @@ class MoveToRL(py_trees.behaviour.Behaviour):
             if self.current_subtree.status == py_trees.common.Status.RUNNING:
                 return py_trees.common.Status.RUNNING
             elif self.current_subtree.status == py_trees.common.Status.FAILURE: # REINFORCE
-                self.distributions[self.current_key][self.current_action] *= 0.5
+                self.distributions[self.current_key][self.current_action] -= 0.9
                 print(self.current_key)
 
         current_coord = blackboard.get_coord()
@@ -97,6 +97,21 @@ class MoveToRL(py_trees.behaviour.Behaviour):
         prediction = dw + blackboard.get_angle_to(self.WP)[1]
         actual = blackboard.get_angle_to(self.WP)[1]
         return abs(actual) - abs(prediction)
+
+    def predict_coord(self, dp):
+        return dp * blackboard.get_heading() + blackboard.get_coord()
+
+    def predict_heading(self, dw):
+        return self.rotate_vector(blackboard.get_heading(), dw)
+    
+    # needs review
+    def rotate_vector(vec, angle_rad):
+        x, y = vec
+        cos_a = np.cos(-angle_rad)
+        sin_a = np.sin(-angle_rad)
+        x_new = x * cos_a - y * sin_a
+        y_new = x * sin_a + y * cos_a
+        return (x_new, y_new)
     
     def rotate_CW(self):
         return dRotate("rotate cw", [self], 360/self.angle_bins, 2)
@@ -115,6 +130,6 @@ class MoveToRL(py_trees.behaviour.Behaviour):
             "  %s [Foo::terminate().terminate()][%s->%s]"
             % (self.name, self.status, new_status)
         )
-        
+
         blackboard.leftMotor.setVelocity(0.0)
         blackboard.rightMotor.setVelocity(0.0)
