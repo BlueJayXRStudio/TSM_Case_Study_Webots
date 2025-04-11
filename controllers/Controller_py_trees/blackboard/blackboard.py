@@ -79,6 +79,8 @@ class Blackboard:
         self.coordSteps = 10 # how many frames we want to separate between pos1 and pos0
         self.robotCoords = deque(maxlen=self.coordSteps)
         
+        self.QTable = set() # for Q-Learning
+        
     def setup(self, robot):
         # get timestep
         timestep = int(robot.getBasicTimeStep())
