@@ -31,10 +31,12 @@ class MoveToQL(py_trees.behaviour.Behaviour):
         self.current_subtree = None
         self.A_t = -1
         self.S_t = None
+        self.state_chain = []
 
         self.current_Q = 0.0
-        self.lr = 0.9
-        self.discount = 0.5
+        self.lr = 0.95
+        self.discount = 0.95
+        self.penalty = -1000
 
     def setup(self):
         self.logger.debug("  %s [Foo::setup()]" % self.name)
@@ -51,15 +53,7 @@ class MoveToQL(py_trees.behaviour.Behaviour):
         if rho < 0.4:
             return py_trees.common.Status.SUCCESS
 
-        if self.current_subtree:
-            self.current_subtree.tick_once()
-            if self.current_subtree.status == py_trees.common.Status.RUNNING:
-                return py_trees.common.Status.RUNNING
-            else: # REINFORCE
-                pass
-            
-
-        key = self.get_Key(blackboard.get_coord(), blackboard.get_world_pose()[2])
+        S_t_1 = self.get_Key(blackboard.get_coord(), blackboard.get_world_pose()[2])
         
         bias = np.array([ 
             self.rotation_advantage(360/self.angle_bins),
@@ -67,17 +61,33 @@ class MoveToQL(py_trees.behaviour.Behaviour):
             self.movement_advantage(self.cell_size) * 100,
             self.movement_advantage(-self.cell_size) * 100
         ])
-    
-        Q_t = [ blackboard.QTable[(key, action)] for action in range(4) ]
-        probs = scipy.special.softmax(Q_t)
 
-        action_index = np.random.choice(len(probs), p=probs)
+        Q_t_1 = np.array([ blackboard.QTable[(S_t_1, action)] for action in range(4) ])
+        Q_final = Q_t_1 + 100 * self.min_max_scale(bias)
+        print(Q_t_1)
+        print(Q_final, "!")
+
+        if self.current_subtree:
+            self.current_subtree.tick_once()
+            if self.current_subtree.status == py_trees.common.Status.RUNNING:
+                return py_trees.common.Status.RUNNING
+            elif self.current_subtree.status == py_trees.common.Status.FAILURE or self.check_recurrence(): # REINFORCE
+                max_next_Q = max(Q_t_1)
+                blackboard.QTable[(self.S_t, self.A_t)] = (1-self.lr)*blackboard.QTable[(self.S_t, self.A_t)] + self.lr*(self.penalty + self.discount*max_next_Q)
+                self.state_chain = []
+            else:
+                max_next_Q = max(Q_t_1)
+                blackboard.QTable[(self.S_t, self.A_t)] = (1-self.lr)*blackboard.QTable[(self.S_t, self.A_t)] + self.lr*(self.discount*max_next_Q)
         
+        probs = scipy.special.softmax(Q_final)
+        action_index = np.random.choice(len(probs), p=probs)
+
         # setup next action
-        self.S_t = key
+        self.S_t = S_t_1
         self.A_t = action_index
-        self.current_Q = blackboard.QTable[(key, action_index)]
+        self.current_Q = blackboard.QTable[(S_t_1, action_index)]
         self.current_subtree = self.actions[action_index]()
+        self.state_chain.append(self.S_t)
 
         return py_trees.common.Status.RUNNING
 
@@ -86,9 +96,9 @@ class MoveToQL(py_trees.behaviour.Behaviour):
 
     def check_recurrence(self):
         recurrence_set = set()
-        for key, action in self.action_chain:
-            if key not in recurrence_set:
-                recurrence_set.add(key)
+        for state in self.state_chain:
+            if state not in recurrence_set:
+                recurrence_set.add(state)
             else:
                 print("recurrence detected")
                 return True
