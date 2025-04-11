@@ -1,5 +1,5 @@
 import numpy as np
-from collections import deque
+from collections import deque, defaultdict
 from helpers.misc_helpers import *
 
 from .DefaultPoses import defaultPoses
@@ -79,8 +79,8 @@ class Blackboard:
         self.coordSteps = 10 # how many frames we want to separate between pos1 and pos0
         self.robotCoords = deque(maxlen=self.coordSteps)
         
-        self.QTable = set() # for Q-Learning
-        
+        self.QTable = defaultdict(lambda:0.0) # for Q-Learning
+
     def setup(self, robot):
         # get timestep
         timestep = int(robot.getBasicTimeStep())

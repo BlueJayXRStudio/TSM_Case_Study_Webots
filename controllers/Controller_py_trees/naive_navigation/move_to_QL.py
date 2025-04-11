@@ -7,9 +7,9 @@ from primitive_movements.dRotate import dRotate
 import scipy.special
 
 
-class MoveToRL(py_trees.behaviour.Behaviour):
+class MoveToQL(py_trees.behaviour.Behaviour):
     def __init__(self, name, preconditions, WP):
-        super(MoveToRL, self).__init__(name)
+        super(MoveToQL, self).__init__(name)
         self.WP = WP
         self.preconditions = preconditions
         self.cell_size = 0.0254 * 10
