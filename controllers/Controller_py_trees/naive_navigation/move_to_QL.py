@@ -20,18 +20,21 @@ class MoveToQL(py_trees.behaviour.Behaviour):
             2: self.move_forward,
             3: self.move_backwards
         }
+        
         # self.sim_step = {
         #     0: (0, 360/self.angle_bins),
         #     1: (0, -360/self.angle_bins),
         #     2: (self.cell_size, 0),
         #     3: (-self.cell_size, 0)
         # }
-        self.distributions = {}
-        self.current_subtree = None
-        self.current_action = -1
-        self.current_key = None
 
-        self.action_chain = []
+        self.current_subtree = None
+        self.A_t = -1
+        self.S_t = None
+
+        self.current_Q = 0.0
+        self.lr = 0.9
+        self.discount = 0.5
 
     def setup(self):
         self.logger.debug("  %s [Foo::setup()]" % self.name)
@@ -52,27 +55,11 @@ class MoveToQL(py_trees.behaviour.Behaviour):
             self.current_subtree.tick_once()
             if self.current_subtree.status == py_trees.common.Status.RUNNING:
                 return py_trees.common.Status.RUNNING
-            elif self.current_subtree.status == py_trees.common.Status.FAILURE or self.check_recurrence(): # REINFORCE
-                discount = 0.1
-                for action in self.action_chain[::-1]:
-                    self.distributions[action[0]][action[1]] *= discount
-                    discount *= 1.1
-                
-                self.action_chain = []
-                # self.distributions[self.current_key][self.current_action] *= discount
-
+            else: # REINFORCE
+                pass
+            
 
         key = self.get_Key(blackboard.get_coord(), blackboard.get_world_pose()[2])
-        
-        if key not in self.distributions:
-            self.distributions[key] = [0.25, 0.25, 0.25, 0.25]
-        
-        vec = self.distributions[key]
-        vec = vec / np.sum(vec)
-        self.distributions[key] = vec
-        
-        # print(blackboard.get_coord(), self.movement_advantage(self.cell_size), self.movement_advantage(-self.cell_size))
-        # print(blackboard.get_angle_to(self.WP)[1], self.rotation_advantage(360/self.angle_bins), self.rotation_advantage(-360/self.angle_bins))
         
         bias = np.array([ 
             self.rotation_advantage(360/self.angle_bins),
@@ -81,24 +68,16 @@ class MoveToQL(py_trees.behaviour.Behaviour):
             self.movement_advantage(-self.cell_size) * 100
         ])
     
-        # print(np.log(self.distributions[key]))
-        probs = np.array(self.distributions[key]) + 100 * self.min_max_scale(bias) * np.array(self.distributions[key])
-        final_probs = scipy.special.softmax(probs)
-        
-        print(np.array(self.distributions[key]))
-        print(bias)
-        print(probs)
-        print(final_probs)
+        Q_t = [ blackboard.QTable[(key, action)] for action in range(4) ]
+        probs = scipy.special.softmax(Q_t)
 
-        # print(self.distributions)
-        action_index = np.random.choice(len(final_probs), p=final_probs)
+        action_index = np.random.choice(len(probs), p=probs)
         
         # setup next action
-        self.current_key = key
-        self.current_action = action_index
+        self.S_t = key
+        self.A_t = action_index
+        self.current_Q = blackboard.QTable[(key, action_index)]
         self.current_subtree = self.actions[action_index]()
-        self.action_chain.append((key, action_index))
-        print(len(self.action_chain))
 
         return py_trees.common.Status.RUNNING
 
