@@ -12,8 +12,8 @@ class MoveToRL(py_trees.behaviour.Behaviour):
         super(MoveToRL, self).__init__(name)
         self.WP = WP
         self.preconditions = preconditions
-        self.cell_size = 0.0254 * 5
-        self.angle_bins = 64
+        self.cell_size = 0.0254 * 10
+        self.angle_bins = 16
         self.actions = {
             0: self.rotate_CW,
             1: self.rotate_CCW,
@@ -77,8 +77,8 @@ class MoveToRL(py_trees.behaviour.Behaviour):
         bias = np.array([ 
             self.rotation_advantage(360/self.angle_bins),
             self.rotation_advantage(-360/self.angle_bins),
-            self.movement_advantage(self.cell_size) * 20,
-            self.movement_advantage(-self.cell_size) * 20
+            self.movement_advantage(self.cell_size) * 100,
+            self.movement_advantage(-self.cell_size) * 100
         ])
     
         # print(np.log(self.distributions[key]))
