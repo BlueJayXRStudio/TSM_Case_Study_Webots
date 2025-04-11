@@ -30,6 +30,7 @@ from primitive_movements.dMove import dMove
 
 from naive_navigation.follow_waypoints import FollowWaypoints
 from naive_navigation.test_behavior import TestBehavior
+from naive_navigation.move_to_RL import MoveToRL
 
 # webots API
 from controller import Supervisor
@@ -44,7 +45,8 @@ dataTree = DataTree("meta tree") # to keep consistent time dependent meta-data s
 # tree = RotateCounterclockwise("rotate counter-clockwise", [], 2) # Main behavior tree
 # tree = MoveBackwards("move backwards", [], 2, 0.05) # Main behavior tree
 # tree = dRotate("", [], 90, 2)
-tree = dMove("", [], 0.0254 * 2, 4)
+# tree = dMove("", [], 0.0254 * 2, 4)
+tree = MoveToRL("", [], (1.09817, 0.3374))
 # tree = TestBehavior("test behavior")
 
 # tree = Selector("Main", children=[

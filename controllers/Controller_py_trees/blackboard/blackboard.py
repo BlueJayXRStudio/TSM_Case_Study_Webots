@@ -252,10 +252,6 @@ class Blackboard:
         Returns:
             (rad, deg): the angle in radian and degree
         """
-
-        if len(self.robotHeadings) < 2:
-            return 0
-
         pose = self.get_world_pose()
 
         a = np.array((wp[0] - pose[0], wp[1] - pose[1], 0), dtype=float)
