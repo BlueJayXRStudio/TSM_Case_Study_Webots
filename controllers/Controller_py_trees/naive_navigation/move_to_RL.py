@@ -4,13 +4,15 @@ from helpers.quantizers import *
 from blackboard.blackboard import blackboard
 from primitive_movements.dMove import dMove
 from primitive_movements.dRotate import dRotate
+import scipy.special
+
 
 class MoveToRL(py_trees.behaviour.Behaviour):
     def __init__(self, name, preconditions, WP):
         super(MoveToRL, self).__init__(name)
         self.WP = WP
         self.preconditions = preconditions
-        self.cell_size = 0.0254
+        self.cell_size = 0.0254 * 5
         self.angle_bins = 64
         self.actions = {
             0: self.rotate_CW,
@@ -20,6 +22,8 @@ class MoveToRL(py_trees.behaviour.Behaviour):
         }
         self.distributions = {}
         self.current_subtree = None
+        self.current_action = -1
+        self.current_key = None
 
     def setup(self):
         self.logger.debug("  %s [Foo::setup()]" % self.name)
@@ -34,21 +38,43 @@ class MoveToRL(py_trees.behaviour.Behaviour):
             self.current_subtree.tick_once()
             if self.current_subtree.status == py_trees.common.Status.RUNNING:
                 return py_trees.common.Status.RUNNING
-            else:
-                print(self.current_subtree.status)
+            elif self.current_subtree.status == py_trees.common.Status.FAILURE: # REINFORCE
+                self.distributions[self.current_key][self.current_action] *= 0.5
+                print(self.current_key)
 
         current_coord = blackboard.get_coord()
         discrete_coord = quantize_position(current_coord[0], current_coord[1], self.cell_size)
         discrete_heading = quantize_angle(blackboard.get_world_pose()[2], self.angle_bins)
         discrete_angle_to_WP = quantize_angle(blackboard.get_angle_to(self.WP)[0], self.angle_bins)
         key = (discrete_coord, discrete_heading, discrete_angle_to_WP)
-
+        
         if key not in self.distributions:
             self.distributions[key] = [0.25, 0.25, 0.25, 0.25]
 
-        # print(self.distributions)
-        action_index = np.random.choice(len(self.distributions[key]), p=self.distributions[key])
+        # print(blackboard.get_coord(), self.movement_advantage(self.cell_size), self.movement_advantage(-self.cell_size))
+        # print(blackboard.get_angle_to(self.WP)[1], self.rotation_advantage(360/self.angle_bins), self.rotation_advantage(-360/self.angle_bins))
+        
+        bias = np.array([ 
+            self.rotation_advantage(360/self.angle_bins),
+            self.rotation_advantage(-360/self.angle_bins),
+            self.movement_advantage(self.cell_size) * 20,
+            self.movement_advantage(-self.cell_size) * 20
+        ])
+    
+        # print(np.log(self.distributions[key]))
 
+        adjusted_probs = self.distributions[key] * bias * 3
+        probs = scipy.special.softmax(adjusted_probs)
+
+        print(self.distributions[key], adjusted_probs, probs)
+        self.distributions[key]
+
+        # print(self.distributions)
+        action_index = np.random.choice(len(probs), p=probs)
+        
+        # setup next action
+        self.current_key = key
+        self.current_action = action_index
         self.current_subtree = self.actions[action_index]()
 
         return py_trees.common.Status.RUNNING
@@ -56,11 +82,15 @@ class MoveToRL(py_trees.behaviour.Behaviour):
     def CheckRequirement(self):
         return py_trees.common.Status.RUNNING
 
-    def predict_pose(self):
-        pass
-
-    def predict_heading(self):
-        pass
+    def movement_advantage(self, dp):
+        prediction = np.linalg.norm(dp * blackboard.get_heading() + blackboard.get_coord() - np.array(self.WP))
+        actual = np.linalg.norm(blackboard.get_coord() - np.array(self.WP))
+        return actual - prediction
+    
+    def rotation_advantage(self, dw):
+        prediction = dw + blackboard.get_angle_to(self.WP)[1]
+        actual = blackboard.get_angle_to(self.WP)[1]
+        return abs(actual) - abs(prediction)
     
     def rotate_CW(self):
         return dRotate("rotate cw", [self], 360/self.angle_bins, 2)
