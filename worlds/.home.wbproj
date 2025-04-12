@@ -9,5 +9,5 @@ textFiles: -1
 consoles: Console:All:All
 renderingDevicePerspectives: TIAGo:Astra depth;0;0.131309;0.103774;0.202329
 renderingDevicePerspectives: TIAGo:Astra rgb;0;0.132488;0.0959118;0.20524
-renderingDevicePerspectives: TIAGo:camera;1;1.46875;0;0
-renderingDevicePerspectives: TIAGo:display;1;0.47;0;0.262008
+renderingDevicePerspectives: TIAGo:camera;1;2.64063;0;0
+renderingDevicePerspectives: TIAGo:display;1;0.856667;0;0.321383

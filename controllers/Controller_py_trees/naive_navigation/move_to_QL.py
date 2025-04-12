@@ -69,9 +69,13 @@ class MoveToQL(py_trees.behaviour.Behaviour):
         if self.current_subtree:
             self.current_subtree.tick_once()
             
-            if self.current_subtree.status == py_trees.common.Status.RUNNING:
+            if self.check_recurrence():
+                state, action, Q = self.state_chain[-2]
+                blackboard.QTable[(state, action)] = (1-self.lr)*Q + self.lr*self.penalty
+                self.state_chain = []
+            elif self.current_subtree.status == py_trees.common.Status.RUNNING:
                 return py_trees.common.Status.RUNNING
-            elif self.current_subtree.status == py_trees.common.Status.FAILURE or self.check_recurrence(): # REINFORCE
+            elif self.current_subtree.status == py_trees.common.Status.FAILURE: # REINFORCE
                 max_next_Q = max(Q_t_1)
                 blackboard.QTable[(self.S_t, self.A_t)] = (1-self.lr)*blackboard.QTable[(self.S_t, self.A_t)] + self.lr*(self.penalty + self.discount*max_next_Q)
             else:
