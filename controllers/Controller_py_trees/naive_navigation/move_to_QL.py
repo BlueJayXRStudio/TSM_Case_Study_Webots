@@ -33,9 +33,9 @@ class MoveToQL(py_trees.behaviour.Behaviour):
         self.state_chain = []
 
         self.current_Q = 0.0
-        self.lr = 0.95
-        self.discount = 0.95
-        self.penalty = -1000
+        self.lr = 0.5
+        self.discount = 0.5
+        self.penalty = -75
 
     def setup(self):
         self.logger.debug("  %s [Foo::setup()]" % self.name)
@@ -57,8 +57,8 @@ class MoveToQL(py_trees.behaviour.Behaviour):
         bias = np.array([ 
             self.rotation_advantage(360/self.angle_bins),
             self.rotation_advantage(-360/self.angle_bins),
-            self.movement_advantage(self.cell_size) * 100,
-            self.movement_advantage(-self.cell_size) * 100
+            self.movement_advantage(self.cell_size) * 50,
+            self.movement_advantage(-self.cell_size) * 50
         ])
 
         Q_t_1 = np.array([ blackboard.QTable[(S_t_1, action)] for action in range(4) ])
