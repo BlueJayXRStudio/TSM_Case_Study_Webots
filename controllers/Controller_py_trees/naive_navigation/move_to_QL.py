@@ -53,7 +53,7 @@ class MoveToQL(py_trees.behaviour.Behaviour):
             return py_trees.common.Status.SUCCESS
 
         S_t_1 = self.get_Key(blackboard.get_coord(), blackboard.get_world_pose()[2])
-        
+
         bias = np.array([ 
             self.rotation_advantage(360/self.angle_bins),
             self.rotation_advantage(-360/self.angle_bins),
@@ -63,21 +63,15 @@ class MoveToQL(py_trees.behaviour.Behaviour):
 
         Q_t_1 = np.array([ blackboard.QTable[(S_t_1, action)] for action in range(4) ])
         Q_final = Q_t_1 + 100 * self.min_max_scale(bias)
-        print(Q_t_1)
-        print(Q_final, "!")
+        # print(Q_t_1)
+        # print(Q_final, "with bias")
 
         if self.current_subtree:
             self.current_subtree.tick_once()
-            if self.check_recurrence():
-                for i in range(len(self.state_chain)-1):
-                    state, action, Q = self.state_chain[i]
-                    state_1, action_1, Q_1 = self.state_chain[i+1]
-                    blackboard.QTable[(state, action)] = (1-self.lr)*Q + self.lr*(self.penalty + self.discount*Q_1)
-                self.state_chain = []
             
             if self.current_subtree.status == py_trees.common.Status.RUNNING:
                 return py_trees.common.Status.RUNNING
-            elif self.current_subtree.status == py_trees.common.Status.FAILURE: # REINFORCE
+            elif self.current_subtree.status == py_trees.common.Status.FAILURE or self.check_recurrence(): # REINFORCE
                 max_next_Q = max(Q_t_1)
                 blackboard.QTable[(self.S_t, self.A_t)] = (1-self.lr)*blackboard.QTable[(self.S_t, self.A_t)] + self.lr*(self.penalty + self.discount*max_next_Q)
             else:
