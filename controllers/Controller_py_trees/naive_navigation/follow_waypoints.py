@@ -40,10 +40,10 @@ class FollowWaypoints(py_trees.behaviour.Behaviour):
         self.current_subtree.tick_once()
         if self.current_subtree.status == py_trees.common.Status.SUCCESS:
             self.index += 1
-            print(f"creating new subtree, index: {self.index}")
-            self.getNewSubtree()
             if self.index == len(self.WP):
                 return py_trees.common.Status.SUCCESS
+            print(f"creating new subtree, index: {self.index}")
+            self.getNewSubtree()
         
         return py_trees.common.Status.RUNNING
 

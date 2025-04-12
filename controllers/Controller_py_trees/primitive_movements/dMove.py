@@ -40,7 +40,7 @@ class dMove(py_trees.behaviour.Behaviour):
 
         # Ensure action has been run for at least 1000ms
         # before checking for inactivity
-        if self.runtime > 1.0 and abs(blackboard.getTrueVelocity()) < 0.01:
+        if self.runtime > 0.2 and abs(blackboard.getTrueVelocity()) < 0.01:
             return py_trees.common.Status.FAILURE
         
         if np.linalg.norm(blackboard.get_coord() - self.initialCoord) > abs(self.moveBy):

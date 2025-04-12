@@ -41,7 +41,7 @@ class dRotate(py_trees.behaviour.Behaviour):
 
         # Ensure action has been run for at least 1000ms
         # before checking for inactivity
-        if self.runtime > 1.0 and abs(blackboard.getTrueAngularVelocity()[1]) < 3.0:
+        if self.runtime > 0.2 and abs(blackboard.getTrueAngularVelocity()[1]) < 3.0:
             return py_trees.common.Status.FAILURE
         
         if abs(blackboard.get_angle_from_to(blackboard.get_heading(), self.initialHeading)[1]) > abs(self.rotateBy):

@@ -10,11 +10,11 @@ import scipy.special
 class MoveToRL(py_trees.behaviour.Behaviour):
     def __init__(self, name, preconditions, WP):
         super(MoveToRL, self).__init__(name)
-        self.MAXSPEED = 2
+        self.MAXSPEED = 1.5
         self.WP = WP
         self.preconditions = preconditions
-        self.cell_size = 0.0254 * 10
-        self.angle_bins = 16
+        self.cell_size = 0.0254 * 7
+        self.angle_bins = 24
         self.actions = {
             0: self.rotate_CW,
             1: self.rotate_CCW,
@@ -54,7 +54,7 @@ class MoveToRL(py_trees.behaviour.Behaviour):
             if self.current_subtree.status == py_trees.common.Status.RUNNING:
                 return py_trees.common.Status.RUNNING
             elif self.current_subtree.status == py_trees.common.Status.FAILURE or self.check_recurrence(): # REINFORCE
-                discount = 0.1
+                discount = 0.01
                 for action in self.action_chain[::-1]:
                     self.distributions[action[0]][action[1]] *= discount
                     discount *= 1.1
