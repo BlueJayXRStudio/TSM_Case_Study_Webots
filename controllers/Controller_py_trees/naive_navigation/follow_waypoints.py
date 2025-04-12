@@ -49,8 +49,8 @@ class FollowWaypoints(py_trees.behaviour.Behaviour):
 
     def getNewSubtree(self):
         self.a_LookingAt = a_LookingAt("", self.WP[self.index])
-        # self.current_subtree = MoveToRL(f"moving to waypoint{self.index}", [], self.WP[self.index])
-        self.current_subtree = MoveToQL(f"moving to waypoint{self.index}", [], self.WP[self.index])
+        self.current_subtree = MoveToRL(f"moving to waypoint{self.index}", [], self.WP[self.index])
+        # self.current_subtree = MoveToQL(f"moving to waypoint{self.index}", [], self.WP[self.index])
 
     def terminate(self, new_status):
         self.logger.debug(

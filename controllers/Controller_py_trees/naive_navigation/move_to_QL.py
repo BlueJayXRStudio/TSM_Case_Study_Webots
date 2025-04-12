@@ -9,6 +9,8 @@ import scipy.special
 class MoveToQL(py_trees.behaviour.Behaviour):
     def __init__(self, name, preconditions, WP):
         super(MoveToQL, self).__init__(name)
+        self.MAXSPEED = 2
+
         self.WP = WP
         self.preconditions = preconditions
         self.cell_size = 0.0254 * 10
@@ -33,9 +35,9 @@ class MoveToQL(py_trees.behaviour.Behaviour):
         self.state_chain = []
 
         self.current_Q = 0.0
-        self.lr = 0.5
-        self.discount = 0.5
-        self.penalty = -75
+        self.lr = 0.9
+        self.discount = 0.9
+        self.penalty = -100
 
     def setup(self):
         self.logger.debug("  %s [Foo::setup()]" % self.name)
@@ -57,8 +59,8 @@ class MoveToQL(py_trees.behaviour.Behaviour):
         bias = np.array([ 
             self.rotation_advantage(360/self.angle_bins),
             self.rotation_advantage(-360/self.angle_bins),
-            self.movement_advantage(self.cell_size) * 50,
-            self.movement_advantage(-self.cell_size) * 50
+            self.movement_advantage(self.cell_size) * 200,
+            self.movement_advantage(-self.cell_size) * 200
         ])
 
         Q_t_1 = np.array([ blackboard.QTable[(S_t_1, action)] for action in range(4) ])
@@ -148,16 +150,16 @@ class MoveToQL(py_trees.behaviour.Behaviour):
     #     return (x_new, y_new)
     
     def rotate_CW(self):
-        return dRotate("rotate cw", [self], 360/self.angle_bins, 1)
+        return dRotate("rotate cw", [self], 360/self.angle_bins, self.MAXSPEED)
 
     def rotate_CCW(self):
-        return dRotate("rotate ccw", [self], -360/self.angle_bins, 1)
+        return dRotate("rotate ccw", [self], -360/self.angle_bins, self.MAXSPEED)
 
     def move_forward(self):
-        return dMove("move forward", [self], self.cell_size, 1)
+        return dMove("move forward", [self], self.cell_size, self.MAXSPEED)
 
     def move_backwards(self):
-        return dMove("move backwards", [self], -self.cell_size, 1)
+        return dMove("move backwards", [self], -self.cell_size, self.MAXSPEED)
     
     def terminate(self, new_status):
         self.logger.debug(

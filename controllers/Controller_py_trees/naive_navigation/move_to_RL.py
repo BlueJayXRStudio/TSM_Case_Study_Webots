@@ -10,6 +10,7 @@ import scipy.special
 class MoveToRL(py_trees.behaviour.Behaviour):
     def __init__(self, name, preconditions, WP):
         super(MoveToRL, self).__init__(name)
+        self.MAXSPEED = 2
         self.WP = WP
         self.preconditions = preconditions
         self.cell_size = 0.0254 * 10
@@ -156,16 +157,16 @@ class MoveToRL(py_trees.behaviour.Behaviour):
     #     return (x_new, y_new)
     
     def rotate_CW(self):
-        return dRotate("rotate cw", [self], 360/self.angle_bins, 1)
+        return dRotate("rotate cw", [self], 360/self.angle_bins, self.MAXSPEED)
 
     def rotate_CCW(self):
-        return dRotate("rotate ccw", [self], -360/self.angle_bins, 1)
+        return dRotate("rotate ccw", [self], -360/self.angle_bins, self.MAXSPEED)
 
     def move_forward(self):
-        return dMove("move forward", [self], self.cell_size, 1)
+        return dMove("move forward", [self], self.cell_size, self.MAXSPEED)
 
     def move_backwards(self):
-        return dMove("move backwards", [self], -self.cell_size, 1)
+        return dMove("move backwards", [self], -self.cell_size, self.MAXSPEED)
     
     def terminate(self, new_status):
         self.logger.debug(
