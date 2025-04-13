@@ -3,7 +3,8 @@
 import numpy as np
 from matplotlib import pyplot as plt
 # import py_trees Behavior Tree library
-import py_trees
+from PyInfiniteTree.Core.TaskStackMachine import TaskStackMachine
+from PyInfiniteTree.Core.TaskStackMachine import Status
 # import blackboard singleton
 from blackboard.blackboard import blackboard
 from blackboard.data_tree import DataTree
@@ -17,18 +18,16 @@ robot = Supervisor()
 blackboard.setup(robot)
 
 # SETUP ROOT LEVEL TREES
-dataTree = DataTree("Data tree") # to keep consistent time dependent meta-data such as wheel velocity 
-tree = FollowWaypoints("")
-
-# Invoke setup on all nodes before stepping through
-dataTree.setup_with_descendants()
-tree.setup_with_descendants()
+dataTree = TaskStackMachine(blackboard)
+tree = TaskStackMachine(blackboard)
+dataTree.addBehavior(DataTree(blackboard)) # to keep consistent time dependent meta-data such as wheel velocity 
+tree.addBehavior(FollowWaypoints(blackboard))
 
 # step through webots robot and tick behavior tree
 while robot.step(blackboard.timestep) != -1:
-    dataTree.tick_once() # tick data tree
-    tree.tick_once() # step/tick behavior tree
+    dataTree.Drive() # tick data tree
+    tree.Drive() # step/tick behavior tree
 
-    if tree.status in [py_trees.common.Status.SUCCESS, py_trees.common.Status.FAILURE]:
+    if tree.status in [Status.SUCCESS, Status.FAILURE]:
         print("Tree completed!")
         break
