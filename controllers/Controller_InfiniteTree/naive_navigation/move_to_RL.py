@@ -1,4 +1,4 @@
-import py_trees
+from PyInfiniteTree.Core.TaskStackMachine import Status
 from PyInfiniteTree.Interfaces.Behavior import Behavior
 
 import numpy as np
@@ -8,12 +8,11 @@ from primitive_movements.dMove import dMove
 from primitive_movements.dRotate import dRotate
 import scipy.special
 
-class MoveToRL(py_trees.behaviour.Behaviour):
-    def __init__(self, name, preconditions, WP):
-        super(MoveToRL, self).__init__(name)
+class MoveToRL(Behavior):
+    def __init__(self, blackboard, WP):
+        super().__init__(blackboard)
         self.MAXSPEED = 1.5
         self.WP = WP
-        self.preconditions = preconditions
         self.cell_size = 0.0254 * 7
         self.angle_bins = 24
         self.actions = {
@@ -24,10 +23,6 @@ class MoveToRL(py_trees.behaviour.Behaviour):
         }
 
         self.distributions = {}
-        self.current_subtree = None
-        self.current_action = -1
-        self.current_key = None
-
         self.action_chain = []
 
     def setup(self):
@@ -36,27 +31,33 @@ class MoveToRL(py_trees.behaviour.Behaviour):
     def initialise(self):
         self.logger.debug("  %s [Foo::initialise()]" % self.name)
 
-    def update(self):
-        self.logger.debug("  %s [Foo::update()]" % self.name)
-
+    def CheckRequirement(self) -> Status:
         coord = blackboard.get_coord()
 
         rho = np.sqrt((coord[0] - self.WP[0])**2 + (coord[1] - self.WP[1])**2)
         if rho < 0.4:
-            return py_trees.common.Status.SUCCESS
+            return Status.SUCCESS
+        
+        if self.check_recurrence():
+            return Status.FAILURE
+    
+        return Status.RUNNING
 
-        if self.current_subtree:
-            self.current_subtree.tick_once()
-            if self.current_subtree.status == py_trees.common.Status.RUNNING:
-                return py_trees.common.Status.RUNNING
-            elif self.current_subtree.status == py_trees.common.Status.FAILURE or self.check_recurrence(): # REINFORCE
-                discount = 0.01
-                for action in self.action_chain[::-1]:
-                    self.distributions[action[0]][action[1]] *= discount
-                    discount *= 1.1
-                
-                self.action_chain = []
-                # self.distributions[self.current_key][self.current_action] *= discount
+    
+    def Step(self, memory, blackboard, message) -> Status:
+        memory.push(self)
+
+        if self.CheckRequirement() == Status.SUCCESS:
+            self.terminate()
+            return Status.SUCCESS
+
+        if message == Status.FAILURE:
+            discount = 0.01
+            for action in self.action_chain[::-1]:
+                self.distributions[action[0]][action[1]] *= discount
+                discount *= 1.1
+            
+            self.action_chain = []
 
         key = self.get_Key(blackboard.get_coord(), blackboard.get_world_pose()[2])
         
@@ -85,13 +86,11 @@ class MoveToRL(py_trees.behaviour.Behaviour):
         action_index = np.random.choice(len(final_probs), p=final_probs)
         
         # setup next action
-        self.current_key = key
-        self.current_action = action_index
-        self.current_subtree = self.actions[action_index]()
         self.action_chain.append((key, action_index))
         print(len(self.action_chain))
 
-        return py_trees.common.Status.RUNNING
+        memory.push(self.actions[action_index]())
+        return Status.RUNNING
 
     def relu(self, x):
         return np.maximum(0, x)
@@ -112,7 +111,7 @@ class MoveToRL(py_trees.behaviour.Behaviour):
         return (x - x_min) / (x_max - x_min + 1e-8)
 
     def CheckRequirement(self):
-        return py_trees.common.Status.RUNNING
+        return Status.RUNNING
 
     def movement_advantage(self, dp):
         prediction = np.linalg.norm(dp * blackboard.get_heading() + blackboard.get_coord() - np.array(self.WP))
@@ -132,22 +131,17 @@ class MoveToRL(py_trees.behaviour.Behaviour):
         return key
 
     def rotate_CW(self):
-        return dRotate("rotate cw", [self], 360/self.angle_bins, self.MAXSPEED)
+        return dRotate(self.blackboard, 360/self.angle_bins, self.MAXSPEED)
 
     def rotate_CCW(self):
-        return dRotate("rotate ccw", [self], -360/self.angle_bins, self.MAXSPEED)
+        return dRotate(self.blackboard, -360/self.angle_bins, self.MAXSPEED)
 
     def move_forward(self):
-        return dMove("move forward", [self], self.cell_size, self.MAXSPEED)
+        return dMove(self.blackboard, self.cell_size, self.MAXSPEED)
 
     def move_backwards(self):
-        return dMove("move backwards", [self], -self.cell_size, self.MAXSPEED)
+        return dMove(self.blackboard, -self.cell_size, self.MAXSPEED)
     
-    def terminate(self, new_status):
-        self.logger.debug(
-            "  %s [Foo::terminate().terminate()][%s->%s]"
-            % (self.name, self.status, new_status)
-        )
-
-        blackboard.leftMotor.setVelocity(0.0)
-        blackboard.rightMotor.setVelocity(0.0)
+    def terminate(self):
+        self.blackboard.leftMotor.setVelocity(0.0)
+        self.blackboard.rightMotor.setVelocity(0.0)

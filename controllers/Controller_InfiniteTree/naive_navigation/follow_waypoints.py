@@ -1,6 +1,5 @@
 import py_trees
 
-from primitive_logic.a_looking_at import a_LookingAt
 from naive_navigation.move_to_RL import MoveToRL
 
 import numpy as np
