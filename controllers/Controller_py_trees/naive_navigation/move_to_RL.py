@@ -134,27 +134,12 @@ class MoveToRL(py_trees.behaviour.Behaviour):
         actual = blackboard.get_angle_to(self.WP)[1]
         return abs(actual) - abs(prediction)
 
-    # def predict_coord(self, dp):
-    #     return dp * blackboard.get_heading() + blackboard.get_coord()
-
-    # def predict_heading(self, dw):
-    #     return self.rotate_vector(blackboard.get_heading(), dw)
-    
     def get_Key(self, coord, heading):
         discrete_coord = quantize_position(coord[0], coord[1], self.cell_size)
         discrete_heading = quantize_angle(heading, self.angle_bins)
         discrete_angle_to_WP = quantize_angle(blackboard.get_angle_to(self.WP)[0], self.angle_bins)
         key = (discrete_coord, discrete_heading, discrete_angle_to_WP)
         return key
-
-    # # needs review
-    # def rotate_vector(vec, angle_rad):
-    #     x, y = vec
-    #     cos_a = np.cos(-angle_rad)
-    #     sin_a = np.sin(-angle_rad)
-    #     x_new = x * cos_a - y * sin_a
-    #     y_new = x * sin_a + y * cos_a
-    #     return (x_new, y_new)
     
     def rotate_CW(self):
         return dRotate("rotate cw", [self], 360/self.angle_bins, self.MAXSPEED)
@@ -173,6 +158,5 @@ class MoveToRL(py_trees.behaviour.Behaviour):
             "  %s [Foo::terminate().terminate()][%s->%s]"
             % (self.name, self.status, new_status)
         )
-
         blackboard.leftMotor.setVelocity(0.0)
         blackboard.rightMotor.setVelocity(0.0)

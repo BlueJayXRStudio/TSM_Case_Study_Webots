@@ -2,14 +2,7 @@ import py_trees
 from py_trees.composites import Sequence, Selector
 from py_trees.decorators import Retry
 # from custom_decorators.decorators import RepeatUntilSuccess
-
-from primitive_logic.a_looking_at import a_LookingAt
-from primitive_movements.move_backwards import MoveBackwards
-from primitive_movements.rotate_clockwise import RotateClockwise
-from primitive_movements.rotate_counterclockwise import RotateCounterclockwise
 from naive_navigation.move_to_RL import MoveToRL
-from naive_navigation.move_to_QL import MoveToQL
-
 
 import numpy as np
 from blackboard.blackboard import blackboard
@@ -21,7 +14,6 @@ class FollowWaypoints(py_trees.behaviour.Behaviour):
         super(FollowWaypoints, self).__init__(name)
         self.wp_set = 'mapping_waypoints'
         self.current_subtree = None
-        self.a_LookingAt = None
         self.index = 0
 
     def setup(self):
@@ -48,14 +40,10 @@ class FollowWaypoints(py_trees.behaviour.Behaviour):
         return py_trees.common.Status.RUNNING
 
     def getNewSubtree(self):
-        self.a_LookingAt = a_LookingAt("", self.WP[self.index])
         self.current_subtree = MoveToRL(f"moving to waypoint{self.index}", [], self.WP[self.index])
-        # self.current_subtree = MoveToQL(f"moving to waypoint{self.index}", [], self.WP[self.index])
 
     def terminate(self, new_status):
         self.logger.debug(
             "  %s [Foo::terminate().terminate()][%s->%s]"
             % (self.name, self.status, new_status)
         )
-
-    
