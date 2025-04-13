@@ -4,7 +4,7 @@ import numpy as np
 from helpers.misc_helpers import *
 
 class dRotate(Behavior):
-    def __init__(self, blackboard, preconditions, rotate_by, max_speed=0.5):
+    def __init__(self, blackboard, rotate_by, max_speed=0.5):
         '''
         dRotate constructor
 
@@ -15,7 +15,6 @@ class dRotate(Behavior):
         self.MAXSPEED = max_speed
         self.rotateBy = rotate_by
         self.initialHeading = blackboard.get_heading()
-        self.preconditions = preconditions
         self.runtime = 0
 
         # Initialize
@@ -32,9 +31,11 @@ class dRotate(Behavior):
         # Ensure action has been run for at least 1000ms
         # before checking for inactivity
         if self.runtime > 0.2 and abs(blackboard.getTrueAngularVelocity()[1]) < 3.0:
+            self.terminate()
             return Status.FAILURE
         
         if abs(blackboard.get_angle_from_to(blackboard.get_heading(), self.initialHeading)[1]) > abs(self.rotateBy):
+            self.terminate()
             return Status.SUCCESS
 
         # print(blackboard.get_angle_from_to(blackboard.get_heading(), self.initialHeading)[1])
