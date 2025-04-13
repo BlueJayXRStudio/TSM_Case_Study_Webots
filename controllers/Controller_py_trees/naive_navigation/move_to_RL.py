@@ -86,10 +86,10 @@ class MoveToRL(py_trees.behaviour.Behaviour):
         probs = np.array(self.distributions[key]) + 100 * self.min_max_scale(bias) * np.array(self.distributions[key])
         final_probs = scipy.special.softmax(probs)
         
-        print(np.array(self.distributions[key]))
-        print(bias)
-        print(probs)
-        print(final_probs)
+        # print(np.array(self.distributions[key]))
+        # print(bias)
+        # print(probs)
+        # print(final_probs)
 
         # print(self.distributions)
         action_index = np.random.choice(len(final_probs), p=final_probs)
@@ -99,7 +99,7 @@ class MoveToRL(py_trees.behaviour.Behaviour):
         self.current_action = action_index
         self.current_subtree = self.actions[action_index]()
         self.action_chain.append((key, action_index))
-        print(len(self.action_chain))
+        # print(len(self.action_chain))
 
         return py_trees.common.Status.RUNNING
 
