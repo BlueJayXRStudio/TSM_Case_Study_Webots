@@ -1562,7 +1562,7 @@ Robot {
                                   }
                                 ]
                                 endPoint DEF ARM_1 Solid {
-                                  translation 0.025099999999999907 0.19400000000000012 -0.17099999999999999
+                                  translation 0.02509999999999994 0.19400000000000012 -0.17099999999999999
                                   rotation 0 0 1 0.010000000005818603
                                   children [
                                     DEF ARM_1_SH1 Shape {
@@ -2075,7 +2075,7 @@ Robot {
                                                                     ]
                                                                     endPoint DEF WRIST Solid {
                                                                       translation 0.05500140595921979 8.845160978158514e-05 -2.591450484320981e-07
-                                                                      rotation -0.6958894475986199 0.17739573416724666 -0.6958941228521414 2.7904520334089176
+                                                                      rotation -0.6958894475986198 0.17739573416724663 -0.6958941228521413 2.7904520334089176
                                                                       children [
                                                                         Pose {
                                                                           rotation 1 0 0 1.570796
@@ -5579,7 +5579,7 @@ Robot {
       }
       endPoint DEF CASTER_WHEEL_FRONT_RIGHT Solid {
         translation 0.16947683713749423 -0.10202176565922294 -0.03236682550772925
-        rotation -0.9904420012050609 0.13792983995179783 -3.872706691555224e-05 1.2880327907951714e-05
+        rotation -0.9904420012050608 0.1379298399517978 -3.872706691555223e-05 1.2880327907951714e-05
         children [
           DEF SMALL_WHEEL_JOINT HingeJoint {
             jointParameters HingeJointParameters {
@@ -6080,7 +6080,7 @@ Robot {
     density -1
     mass 28.26649
   }
-  controller "Controller_py_trees"
+  controller "Controller_InfiniteTree"
   supervisor TRUE
 }
 DEF marker Solid {
