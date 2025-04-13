@@ -25,14 +25,8 @@ class MoveToRL(Behavior):
         self.distributions = {}
         self.action_chain = []
 
-    def setup(self):
-        self.logger.debug("  %s [Foo::setup()]" % self.name)
-
-    def initialise(self):
-        self.logger.debug("  %s [Foo::initialise()]" % self.name)
-
     def CheckRequirement(self) -> Status:
-        coord = blackboard.get_coord()
+        coord = self.blackboard.get_coord()
 
         rho = np.sqrt((coord[0] - self.WP[0])**2 + (coord[1] - self.WP[1])**2)
         if rho < 0.4:
@@ -78,16 +72,16 @@ class MoveToRL(Behavior):
         probs = np.array(self.distributions[key]) + 100 * self.min_max_scale(bias) * np.array(self.distributions[key])
         final_probs = scipy.special.softmax(probs)
         
-        print(np.array(self.distributions[key]))
-        print(bias)
-        print(probs)
-        print(final_probs)
+        # print(np.array(self.distributions[key]))
+        # print(bias)
+        # print(probs)
+        # print(final_probs)
 
         action_index = np.random.choice(len(final_probs), p=final_probs)
         
         # setup next action
         self.action_chain.append((key, action_index))
-        print(len(self.action_chain))
+        # print(len(self.action_chain))
 
         memory.push(self.actions[action_index]())
         return Status.RUNNING
@@ -109,9 +103,6 @@ class MoveToRL(Behavior):
         x_min = np.min(x)
         x_max = np.max(x)
         return (x - x_min) / (x_max - x_min + 1e-8)
-
-    def CheckRequirement(self):
-        return Status.RUNNING
 
     def movement_advantage(self, dp):
         prediction = np.linalg.norm(dp * blackboard.get_heading() + blackboard.get_coord() - np.array(self.WP))

@@ -24,10 +24,10 @@ class FollowWaypoints(Behavior):
             memory.push(MoveToRL(blackboard, self.WP[self.index]))
             return Status.RUNNING
             
-        if self.current_subtree.status == Status.SUCCESS:
+        if message == Status.SUCCESS:
             self.index += 1
             if self.index == len(self.WP):
                 return Status.SUCCESS
-            memory.push(MoveToRL(blackboard, self.WP[self.index]))
-        
+            
+        memory.push(MoveToRL(blackboard, self.WP[self.index]))
         return Status.RUNNING

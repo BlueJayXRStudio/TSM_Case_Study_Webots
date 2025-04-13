@@ -27,7 +27,7 @@ tree.addBehavior(FollowWaypoints(blackboard))
 while robot.step(blackboard.timestep) != -1:
     dataTree.drive() # tick data tree
     message = tree.drive() # step/tick behavior tree
-
-    if message in [Status.SUCCESS, Status.FAILURE]:
+    if tree.memory.count() == 0 and message in [Status.SUCCESS, Status.FAILURE]:
         print("Tree completed!")
         break
+    
