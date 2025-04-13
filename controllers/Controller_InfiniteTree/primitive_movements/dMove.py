@@ -13,11 +13,11 @@ class dMove(Behavior):
         super().__init__(blackboard)
         self.MAXSPEED = max_speed
         self.moveBy = move_by
-        self.initialHeading = blackboard.get_coord()
+        self.initialCoord = blackboard.get_coord()
         self.runtime = 0
 
         # Initialize
-        self.initialHeading = blackboard.get_coord()
+        self.initialCoord = blackboard.get_coord()
         self.blackboard.leftMotor.setVelocity(0.0)
         self.blackboard.rightMotor.setVelocity(0.0)
         self.runtime = 0
@@ -36,8 +36,6 @@ class dMove(Behavior):
         if np.linalg.norm(blackboard.get_coord() - self.initialCoord) > abs(self.moveBy):
             self.terminate()
             return Status.SUCCESS
-
-        # print(blackboard.get_angle_from_to(blackboard.get_heading(), self.initialHeading)[1])
 
         blackboard.leftMotor.setVelocity(self.vL)
         blackboard.rightMotor.setVelocity(self.vR)
