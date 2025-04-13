@@ -25,9 +25,9 @@ tree.addBehavior(FollowWaypoints(blackboard))
 
 # step through webots robot and tick behavior tree
 while robot.step(blackboard.timestep) != -1:
-    dataTree.Drive() # tick data tree
-    tree.Drive() # step/tick behavior tree
+    dataTree.drive() # tick data tree
+    message = tree.drive() # step/tick behavior tree
 
-    if tree.status in [Status.SUCCESS, Status.FAILURE]:
+    if message in [Status.SUCCESS, Status.FAILURE]:
         print("Tree completed!")
         break

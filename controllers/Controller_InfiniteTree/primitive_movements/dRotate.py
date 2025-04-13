@@ -28,7 +28,7 @@ class dRotate(Behavior):
     def Step(self, memory, blackboard, message) -> Status:
         memory.push(self)
 
-        requirement_status = self.TraverseRequirements()
+        requirement_status = self.TraverseRequirements(memory)
         if requirement_status != Status.RUNNING:
             return requirement_status
         
@@ -51,7 +51,7 @@ class dRotate(Behavior):
         return Status.RUNNING
 
     def CheckRequirement(self) -> Status:
-        return Status.FAILURE
+        return Status.RUNNING
     
     def terminate(self):
         self.blackboard.leftMotor.setVelocity(0.0)
