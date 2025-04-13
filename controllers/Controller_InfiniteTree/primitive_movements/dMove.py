@@ -27,6 +27,10 @@ class dMove(Behavior):
     def Step(self, memory, blackboard, message) -> Status:
         memory.push(self)
 
+        requirement_status = self.TraverseRequirements()
+        if requirement_status != Status.RUNNING:
+            return requirement_status
+        
         # Ensure action has been run for at least 1000ms
         # before checking for inactivity
         if self.runtime > 0.2 and abs(blackboard.getTrueVelocity()) < 0.01:
