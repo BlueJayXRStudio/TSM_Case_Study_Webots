@@ -1,11 +1,12 @@
 import py_trees
+from PyInfiniteTree.Interfaces.Behavior import Behavior
+
 import numpy as np
 from helpers.quantizers import *
 from blackboard.blackboard import blackboard
 from primitive_movements.dMove import dMove
 from primitive_movements.dRotate import dRotate
 import scipy.special
-
 
 class MoveToRL(py_trees.behaviour.Behaviour):
     def __init__(self, name, preconditions, WP):
@@ -56,7 +57,6 @@ class MoveToRL(py_trees.behaviour.Behaviour):
                 
                 self.action_chain = []
                 # self.distributions[self.current_key][self.current_action] *= discount
-
 
         key = self.get_Key(blackboard.get_coord(), blackboard.get_world_pose()[2])
         
