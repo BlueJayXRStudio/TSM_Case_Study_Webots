@@ -37,7 +37,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation 0.7398905122063233 -0.0014219654897922355 -0.6727258044413119 3.1400040340515023
-  position 1.5244852924939316 5.332743955530894 34.6845768032483
+  position 1.5571850232327937 5.331650397059021 34.34147756695364
   near 0.5
 }
 TexturedBackground {
@@ -1963,7 +1963,7 @@ Robot {
                                                         ]
                                                         endPoint DEF ARM_5 Solid {
                                                           translation -0.1619707083937416 0.01994792905688572 0.026991617815015956
-                                                          rotation 0.00020535105120899965 -0.9999999581685544 -0.00020370035698081827 1.5708007270446986
+                                                          rotation 0.00020535105120899963 -0.9999999581685542 -0.00020370035698081824 1.5708007270446986
                                                           children [
                                                             DEF ARM_5_SH1 Shape {
                                                               appearance PBRAppearance {
@@ -2075,7 +2075,7 @@ Robot {
                                                                     ]
                                                                     endPoint DEF WRIST Solid {
                                                                       translation 0.05500140595920104 8.845160978157327e-05 -2.5914505332921893e-07
-                                                                      rotation -0.695889447601155 0.1773957341473834 -0.6958941228546699 2.7904520334460488
+                                                                      rotation -0.695889447601155 0.17739573414738338 -0.6958941228546699 2.7904520334460488
                                                                       children [
                                                                         Pose {
                                                                           rotation 1 0 0 1.570796
@@ -6080,7 +6080,7 @@ Robot {
     density -1
     mass 28.26649
   }
-  controller "Controller_reactive"
+  controller "Controller_InfiniteTree"
   supervisor TRUE
 }
 DEF marker Solid {
