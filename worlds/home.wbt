@@ -36,8 +36,8 @@ WorldInfo {
   lineScale 1
 }
 Viewpoint {
-  orientation 0.5078759180267021 0.031459409001349824 -0.8608555961796499 3.0289630271793992
-  position 13.940660953301828 3.518750484297252 20.717211657826894
+  orientation 0.7398905122063233 -0.0014219654897922355 -0.6727258044413119 3.1400040340515023
+  position 1.3525574607235178 5.3384936400920555 36.48851544266102
   near 0.5
 }
 TexturedBackground {
@@ -1963,7 +1963,7 @@ Robot {
                                                         ]
                                                         endPoint DEF ARM_5 Solid {
                                                           translation -0.1619707083937416 0.01994792905688572 0.026991617815015956
-                                                          rotation 0.00020535105120899963 -0.9999999581685542 -0.00020370035698081824 1.5708007270446986
+                                                          rotation 0.00020535105120899965 -0.9999999581685544 -0.00020370035698081827 1.5708007270446986
                                                           children [
                                                             DEF ARM_5_SH1 Shape {
                                                               appearance PBRAppearance {
@@ -2075,7 +2075,7 @@ Robot {
                                                                     ]
                                                                     endPoint DEF WRIST Solid {
                                                                       translation 0.05500140595920104 8.845160978157327e-05 -2.5914505332921893e-07
-                                                                      rotation -0.695889447601155 0.1773957341473835 -0.6958941228546699 2.7904520334460488
+                                                                      rotation -0.695889447601155 0.17739573414738347 -0.6958941228546699 2.7904520334460488
                                                                       children [
                                                                         Pose {
                                                                           rotation 1 0 0 1.570796
@@ -6101,7 +6101,7 @@ DEF marker Solid {
         }
       }
       geometry DEF SPHERE Sphere {
-        radius 0.02
+        radius 0.04
         subdivision 3
       }
     }
@@ -6128,7 +6128,7 @@ DEF marker_1 Solid {
         }
       }
       geometry DEF SPHERE Sphere {
-        radius 0.02
+        radius 0.04
         subdivision 3
       }
     }
@@ -6155,7 +6155,7 @@ DEF WP Solid {
         }
       }
       geometry DEF SPHERE Sphere {
-        radius 0.02
+        radius 0.04
         subdivision 3
       }
     }
@@ -6189,7 +6189,7 @@ DEF WP0 Solid {
         }
       }
       geometry DEF SPHERE Sphere {
-        radius 0.02
+        radius 0.04
         subdivision 3
       }
     }
@@ -6216,7 +6216,7 @@ DEF WP1 Solid {
         }
       }
       geometry DEF SPHERE Sphere {
-        radius 0.02
+        radius 0.04
         subdivision 3
       }
     }
@@ -6230,6 +6230,7 @@ DEF WP2 Solid {
   children [
     Shape {
       appearance PBRAppearance {
+        baseColor 1 0 0.45275
         baseColorMap ImageTexture {
           url [
             "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/balls/protos/textures/pingpong_logo.jpg"
@@ -6243,7 +6244,7 @@ DEF WP2 Solid {
         }
       }
       geometry DEF SPHERE Sphere {
-        radius 0.02
+        radius 0.04
         subdivision 3
       }
     }
@@ -6270,7 +6271,7 @@ DEF WP3 Solid {
         }
       }
       geometry DEF SPHERE Sphere {
-        radius 0.02
+        radius 0.04
         subdivision 3
       }
     }
@@ -6297,7 +6298,7 @@ DEF WP4 Solid {
         }
       }
       geometry DEF SPHERE Sphere {
-        radius 0.02
+        radius 0.04
         subdivision 3
       }
     }
@@ -6324,7 +6325,7 @@ DEF WP5 Solid {
         }
       }
       geometry DEF SPHERE Sphere {
-        radius 0.02
+        radius 0.04
         subdivision 3
       }
     }
@@ -6351,7 +6352,7 @@ DEF WP6 Solid {
         }
       }
       geometry DEF SPHERE Sphere {
-        radius 0.02
+        radius 0.04
         subdivision 3
       }
     }
@@ -6378,7 +6379,7 @@ DEF WP7 Solid {
         }
       }
       geometry DEF SPHERE Sphere {
-        radius 0.02
+        radius 0.04
         subdivision 3
       }
     }
@@ -6392,6 +6393,7 @@ DEF WP8 Solid {
   children [
     Shape {
       appearance PBRAppearance {
+        baseColor 1 0 0.45275
         baseColorMap ImageTexture {
           url [
             "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/balls/protos/textures/pingpong_logo.jpg"
@@ -6405,7 +6407,7 @@ DEF WP8 Solid {
         }
       }
       geometry DEF SPHERE Sphere {
-        radius 0.02
+        radius 0.04
         subdivision 3
       }
     }
@@ -6432,7 +6434,7 @@ DEF WP9 Solid {
         }
       }
       geometry DEF SPHERE Sphere {
-        radius 0.02
+        radius 0.04
         subdivision 3
       }
     }
@@ -6459,7 +6461,7 @@ DEF WP10 Solid {
         }
       }
       geometry DEF SPHERE Sphere {
-        radius 0.02
+        radius 0.04
         subdivision 3
       }
     }
