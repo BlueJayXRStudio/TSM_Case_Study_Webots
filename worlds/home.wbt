@@ -37,7 +37,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation 0.7398905122063233 -0.0014219654897922355 -0.6727258044413119 3.1400040340515023
-  position 1.5571850232327937 5.331650397059021 34.34147756695364
+  position 0.7481376550535808 4.682003726529803 40.338516103785324
   near 0.5
 }
 TexturedBackground {
@@ -6080,7 +6080,7 @@ Robot {
     density -1
     mass 28.26649
   }
-  controller "Controller_InfiniteTree"
+  controller "Controller_reactive"
   supervisor TRUE
 }
 DEF marker Solid {

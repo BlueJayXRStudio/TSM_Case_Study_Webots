@@ -1,0 +1,15 @@
+Motivation:
+Although higher level planning through pathfinding algorithms such as A* and RRT - and perhaps even obstacle detection through a combination of sensor information and spatial-partitioning algorithms and subsequent replanning - solves vast majority of the problems in robotic navigation, complex robots often have mechanical parts that will get stuck in various environmental objects such as chairs and shelves. Even friction against a wall can present a major challenge in navigation. This is especially true in the early mapping phase of the robot, when it has a set of preliminary waypoints for getting around the environment. With the assumption that we prefer the mapping be done by the robot autonomously and all future planned navigations to be performed with waypoint navigation, it is imperative that we have methods for the robot to recover from seemingly insignificant yet impassable positions.
+
+Through this 
+
+
+
+Three Controllers:
+
+1. Reactive waypoints follower. Uses lidar to steer away or to move backwards from perceived obstacles.
+    - Can be manually fine tuned to perform decently. However, since it has no memory, it is prone to getting stuck in repetitive movements. 
+2. Tabular reinforcement learning implemented in py_trees. 
+    - Uses primitive movements such as slight rotations and movements as actions and discretized robot coordinates and headings as state space. Biases in the forms of direction and distances from the waypoint utilized to favor actions that will drive the robot towards the goals. Obstacles will nudge the robot to perform ostensibly suboptimal actions in order to avoid repeating failing movements. This includes punishing cyclic actions that will otherwise keep the robot in an infinite loop of actions.
+3. Tabular reinforcement learning implemented in Task Stack Machine (same as procedures as above but in TSM).
+
