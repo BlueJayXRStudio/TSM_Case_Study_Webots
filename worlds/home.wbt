@@ -37,7 +37,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation 0.7398905122063233 -0.0014219654897922355 -0.6727258044413119 3.1400040340515023
-  position 1.3525574607235178 5.3384936400920555 36.48851544266102
+  position 1.5244852924939316 5.332743955530894 34.6845768032483
   near 0.5
 }
 TexturedBackground {
@@ -2075,7 +2075,7 @@ Robot {
                                                                     ]
                                                                     endPoint DEF WRIST Solid {
                                                                       translation 0.05500140595920104 8.845160978157327e-05 -2.5914505332921893e-07
-                                                                      rotation -0.695889447601155 0.17739573414738347 -0.6958941228546699 2.7904520334460488
+                                                                      rotation -0.695889447601155 0.1773957341473834 -0.6958941228546699 2.7904520334460488
                                                                       children [
                                                                         Pose {
                                                                           rotation 1 0 0 1.570796
@@ -6080,7 +6080,7 @@ Robot {
     density -1
     mass 28.26649
   }
-  controller "Controller_py_trees"
+  controller "Controller_reactive"
   supervisor TRUE
 }
 DEF marker Solid {

@@ -44,8 +44,8 @@ class MoveTo(py_trees.behaviour.Behaviour):
         ranges[ranges==np.inf] = 100
         ranges = ranges[80:len(ranges)-80]
                 
-        p1 = 0.2 # ADJUST THIS FOR STEERING INFLUENCE
-        p2 = 2
+        p1 = 3 # ADJUST THIS FOR STEERING INFLUENCE
+        p2 = 0
         rx, ry = 0.0, 0.0
         for i, angle in enumerate(blackboard.angles):
             if ranges[i] < 0.45:
