@@ -2,7 +2,6 @@ import py_trees
 from py_trees.composites import Sequence, Selector
 from py_trees.decorators import Retry
 # from custom_decorators.decorators import RepeatUntilSuccess
-from naive_navigation.move_to import MoveTo
 from naive_navigation.move_to_RL import MoveToRL
 
 import numpy as np
