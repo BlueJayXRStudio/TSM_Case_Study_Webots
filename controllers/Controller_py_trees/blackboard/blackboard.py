@@ -60,7 +60,7 @@ class Blackboard:
         self.angles = np.linspace(4.19 / 2 + np.pi/2, -4.19 / 2 + np.pi/2, 667)
         self.angles = self.angles[80:len(self.angles)-80]
 
-        self.MAXSPEED = 10.0
+        self.MAXSPEED = 1.5
 
         self.joints = {}
         self.encoders = {}

@@ -36,8 +36,8 @@ WorldInfo {
   lineScale 1
 }
 Viewpoint {
-  orientation 0.716772349977932 0.0003439674701556883 -0.6973071633028678 3.1366143612390736
-  position 3.313795145654696 3.6397691633264557 43.08971900971762
+  orientation 0.5078759180267021 0.031459409001349824 -0.8608555961796499 3.0289630271793992
+  position 13.940660953301828 3.518750484297252 20.717211657826894
   near 0.5
 }
 TexturedBackground {
@@ -2075,7 +2075,7 @@ Robot {
                                                                     ]
                                                                     endPoint DEF WRIST Solid {
                                                                       translation 0.05500140595920104 8.845160978157327e-05 -2.5914505332921893e-07
-                                                                      rotation -0.695889447601155 0.177395734147384 -0.6958941228546699 2.7904520334460488
+                                                                      rotation -0.695889447601155 0.1773957341473835 -0.6958941228546699 2.7904520334460488
                                                                       children [
                                                                         Pose {
                                                                           rotation 1 0 0 1.570796
@@ -6080,11 +6080,11 @@ Robot {
     density -1
     mass 28.26649
   }
-  controller "Controller_InfiniteTree"
+  controller "Controller_py_trees"
   supervisor TRUE
 }
 DEF marker Solid {
-  translation 0.75 0.2 1.28786e-14
+  translation 0.75 0.2 -0.17
   children [
     Shape {
       appearance PBRAppearance {
@@ -6111,7 +6111,7 @@ DEF marker Solid {
   contactMaterial "ping pong ball material"
 }
 DEF marker_1 Solid {
-  translation 0.75 0.2 1.28786e-14
+  translation 0.75 0.2 -0.36
   children [
     Shape {
       appearance PBRAppearance {
@@ -6138,7 +6138,7 @@ DEF marker_1 Solid {
   contactMaterial "ping pong ball material"
 }
 DEF WP Solid {
-  translation 0.75 0.2 1.28786e-14
+  translation 0.75 0.2 -0.36
   children [
     Shape {
       appearance PBRAppearance {

@@ -2,6 +2,7 @@ import py_trees
 from py_trees.composites import Sequence, Selector
 from py_trees.decorators import Retry
 # from custom_decorators.decorators import RepeatUntilSuccess
+from naive_navigation.move_to import MoveTo
 from naive_navigation.move_to_RL import MoveToRL
 
 import numpy as np
@@ -41,6 +42,7 @@ class FollowWaypoints(py_trees.behaviour.Behaviour):
 
     def getNewSubtree(self):
         self.current_subtree = MoveToRL(f"moving to waypoint{self.index}", [], self.WP[self.index])
+        # self.current_subtree = MoveTo(f"moving to waypoint{self.index}", self.WP[self.index])
 
     def terminate(self, new_status):
         self.logger.debug(
