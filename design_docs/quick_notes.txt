@@ -12,7 +12,7 @@ The Task Stack Machine (TSM) fills this gap by providing a runtime execution mod
 
 This approach finds further theoretical support in the work of Florez-Puga et al., whose Dynamic Behavior Trees explicitly acknowledge the need for runtime behavior generation in response to environmental context. Together, these frameworks reinforce the idea that behaviors must be both composable and dynamically constructed in order to handle the demands of real-world autonomy.
 
-Building on this foundation, TSM does not merely agree with the semantic direction of modern BT theory—it operationalizes it. The diagrammatic structure introduced in this case study is not only a practical architecture for robust navigation; it also represents a novel and faithful implementation of the recursive, compositional execution model that Colledanchise, Ögren, and Florez-Puga conceptually endorse but stop short of fully implementing.
+Building on this foundation, TSM does not merely agree with the semantic direction of modern BT theory; it operationalizes it. The diagrammatic structure introduced in this case study is not only a practical architecture for robust navigation; it also represents a novel and faithful implementation of the recursive, compositional execution model that Colledanchise, Ögren, and Florez-Puga conceptually endorse but stop short of fully implementing.
 
 
 Three Controllers:
