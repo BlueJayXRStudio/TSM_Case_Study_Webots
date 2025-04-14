@@ -1,9 +1,6 @@
 Motivation:
+
 Although higher level planning through pathfinding algorithms such as A* and RRT - and perhaps even obstacle detection through a combination of sensor information and spatial-partitioning algorithms and subsequent replanning - solves vast majority of the problems in robotic navigation, complex robots often have mechanical parts that will get stuck in various environmental objects such as chairs and shelves. Even friction against a wall can present a major challenge in navigation. This is especially true in the early mapping phase of the robot, when it has a set of preliminary waypoints for getting around the environment. With the assumption that we prefer the mapping be done by the robot autonomously and all future planned navigations to be performed with waypoint navigation, it is imperative that we have methods for the robot to recover from seemingly insignificant yet impassable positions.
-
-Through this 
-
-
 
 Three Controllers:
 
