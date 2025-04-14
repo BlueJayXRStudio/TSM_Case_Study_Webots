@@ -6,7 +6,6 @@ from primitive_movements.dMove import dMove
 from primitive_movements.dRotate import dRotate
 import scipy.special
 
-
 class MoveToRL(py_trees.behaviour.Behaviour):
     def __init__(self, name, preconditions, WP):
         super(MoveToRL, self).__init__(name)
@@ -21,17 +20,9 @@ class MoveToRL(py_trees.behaviour.Behaviour):
             2: self.move_forward,
             3: self.move_backwards
         }
-        # self.sim_step = {
-        #     0: (0, 360/self.angle_bins),
-        #     1: (0, -360/self.angle_bins),
-        #     2: (self.cell_size, 0),
-        #     3: (-self.cell_size, 0)
-        # }
+
         self.distributions = {}
         self.current_subtree = None
-        self.current_action = -1
-        self.current_key = None
-
         self.action_chain = []
 
     def setup(self):
@@ -60,8 +51,6 @@ class MoveToRL(py_trees.behaviour.Behaviour):
                     discount *= 1.1
                 
                 self.action_chain = []
-                # self.distributions[self.current_key][self.current_action] *= discount
-
 
         key = self.get_Key(blackboard.get_coord(), blackboard.get_world_pose()[2])
         
@@ -95,8 +84,6 @@ class MoveToRL(py_trees.behaviour.Behaviour):
         action_index = np.random.choice(len(final_probs), p=final_probs)
         
         # setup next action
-        self.current_key = key
-        self.current_action = action_index
         self.current_subtree = self.actions[action_index]()
         self.action_chain.append((key, action_index))
         # print(len(self.action_chain))
